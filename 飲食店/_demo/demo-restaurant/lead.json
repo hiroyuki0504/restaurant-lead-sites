@@ -1,0 +1,20 @@
+{
+  "name": "Demo Restaurant",
+  "industry": "飲食店",
+  "region": "_demo",
+  "slug": "demo-restaurant",
+  "created_at": "2026-06-21T16:24:06.873636+00:00",
+  "source_urls": [
+    "https://example.com"
+  ],
+  "gaps": [
+    "予約導線が分かりにくい",
+    "スマホでメニューとアクセスを見つけにくい"
+  ],
+  "proposal_angles": [
+    "1枚LP+予約CTA",
+    "LINE導線"
+  ],
+  "code_dir": "/Users/hiroyuki/restaurant-lead-sites/飲食店/_demo/demo-restaurant/code",
+  "deployment": null
+}
