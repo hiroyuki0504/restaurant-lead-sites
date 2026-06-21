@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Scaffold, verify, commit, and deploy approved restaurant lead sites.
 
 Repo layout:
@@ -92,7 +93,7 @@ def html_template(name: str, industry: str, region: str, gaps: list[str], angles
   <meta charset=\"utf-8\" />
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
   <title>{escape_html(name)} | {escape_html(region)}のレストラン</title>
-  <meta name=\"description\" content=\"{escape_attr(name)}のWebサイト制作サンプル。スマホで美しく、予約まで迷わず進める高品質な1ページ。\" />
+  <meta name=\"description\" content=\"{escape_attr(name)}の料理、空間、予約導線をスマホで見やすくまとめた店舗ページ。\" />
   <meta name=\"robots\" content=\"noindex\" />
   <style>
     :root {{ color-scheme: light; --ink:#18120d; --muted:#706258; --cream:#fbf4e8; --paper:#fffaf2; --deep:#24170f; --gold:#b98745; --accent:#c85f36; --line:rgba(74,49,29,.16); --shadow:0 24px 70px rgba(45,29,15,.16); }}
@@ -126,12 +127,12 @@ def html_template(name: str, industry: str, region: str, gaps: list[str], angles
 <body>
   <nav class=\"nav sans\"><a class=\"brand\" href=\"#top\">{escape_html(name)}</a><div class=\"nav-links\"><a href=\"#story\">こだわり</a><a href=\"#menu\">お料理</a><a href=\"#reserve\">ご予約</a><a class=\"cta\" href=\"#reserve\">予約相談</a></div></nav>
   <main id=\"top\">
-    <section class=\"hero\"><div class=\"hero-inner\"><div><div class=\"eyebrow sans\">{escape_html(industry)} / {escape_html(region)}</div><h1>土地の味を、<br>美しい体験へ。</h1><p class=\"hero-copy sans\">{escape_html(name)}の魅力を、初めて訪れる方にも伝わる1ページへ。料理・雰囲気・予約まで、スマホで迷わず進める高品質な構成です。</p><div class=\"cta-row sans\"><a class=\"button primary\" href=\"#reserve\">ご予約の流れを見る</a><a class=\"button ghost\" href=\"#menu\">お料理を見る</a></div></div><div class=\"hero-card\"><div class=\"float-note sans\"><strong>Website Preview</strong><span>{escape_html(angle_text)} を自然に体験へつなげる構成。</span></div></div></div></section>
+    <section class=\"hero\"><div class=\"hero-inner\"><div><div class=\"eyebrow sans\">{escape_html(industry)} / {escape_html(region)}</div><h1>土地の味を、<br>美しい体験へ。</h1><p class=\"hero-copy sans\">{escape_html(name)}の魅力を、初めて訪れる方にも伝わる1ページへ。料理・雰囲気・予約まで、スマホで迷わず進める構成です。</p><div class=\"cta-row sans\"><a class=\"button primary\" href=\"#reserve\">ご予約の流れを見る</a><a class=\"button ghost\" href=\"#menu\">お料理を見る</a></div></div><div class=\"hero-card\"><div class=\"float-note sans\"><strong>予約前に伝わる情報</strong><span>{escape_html(angle_text)} を自然に体験へつなげます。</span></div></div></div></section>
     <section id=\"story\"><div class=\"wrap\"><div class=\"section-head\"><div><div class=\"kicker sans\">STORY</div><h2>お店らしさを、<br>一目で伝える。</h2></div><p class=\"sans\">料理の魅力、空間の雰囲気、予約導線をひとつの体験として整理。初めて訪れる方にも、お店の世界観が自然に伝わる構成です。</p></div><div class=\"cards\"><article class=\"card feature\"><h3>料理と体験を主役に。</h3><p class=\"sans\">ファーストビューで世界観を作り、予約前の期待値を高めます。写真が入る前でも、色・余白・言葉で上質感を出せる設計です。</p></article><article class=\"card\"><h3>スマホ最優先。</h3><p class=\"sans\">観光中・移動中でも見やすく、予約導線まで短く進める構成。</p></article><article class=\"card\"><h3>予約に迷わない。</h3><p class=\"sans\">電話、フォーム、LINEなど任意の導線を整理して、来店までの不安を減らします。</p></article><article class=\"card\"><h3>再訪につなげる。</h3><p class=\"sans\">季節メニューやお知らせ導線を作り、1回来店で終わらない関係を作ります。</p></article></div></div></section>
     <section id=\"menu\" style=\"background:#fffaf2\"><div class=\"wrap\"><div class=\"section-head\"><div><div class=\"kicker sans\">MENU</div><h2>魅力が伝わる、<br>料理紹介。</h2></div><p class=\"sans\">実際の献立・価格・写真が揃えば差し替え可能な、完成度重視のセクションです。</p></div><div class=\"visual-strip\"><div class=\"visual\"></div><div class=\"card\"><h3>見せ方の軸</h3><div class=\"sans\"><div class=\"menu-item\"><strong>名物</strong><span>最初に食べてほしい一皿を大きく見せる。</span></div><div class=\"menu-item\"><strong>コース</strong><span>予約前に分かる範囲で流れを説明。</span></div><div class=\"menu-item\"><strong>季節感</strong><span>旬・限定・地元食材の価値を演出。</span></div></div></div></div></div></section>
     <section id=\"reserve\" class=\"reservation\"><div class=\"wrap reserve-box\"><div class=\"reserve-panel\"><div class=\"kicker sans\">RESERVATION</div><h2>予約まで、<br>迷わせない。</h2><p class=\"sans\">お店に合わせて予約・問い合わせ・LINE導線を整理。人数、希望日、要望まで自然に伝えられる流れを用意します。</p><div class=\"cta-row sans\"><a class=\"button primary\" href=\"#\">予約相談する</a><a class=\"button ghost\" href=\"#top\">ページ上部へ</a></div></div><div class=\"steps sans\"><div class=\"step\"><div class=\"num\">1</div><div><strong>希望日を選ぶ</strong><span>来店前に必要な情報を簡単に伝えられる。</span></div></div><div class=\"step\"><div class=\"num\">2</div><div><strong>人数・要望を共有</strong><span>コース、席、アレルギーなども事前確認。</span></div></div><div class=\"step\"><div class=\"num\">3</div><div><strong>来店後もつながる</strong><span>LINEやお知らせで再来店導線を作る。</span></div></div></div></div></section>
   </main>
-  <footer class=\"sans\"><div class=\"wrap\"><span>© {escape_html(name)} — Website preview</span><span class=\"demo-note\">非公式のWeb制作サンプルです。</span></div></footer>
+  <footer class=\"sans\"><div class=\"wrap\"><span>© {escape_html(name)}</span><span class=\"demo-note\">料理・空間・予約情報をまとめた店舗ページ。</span></div></footer>
 </body>
 </html>
 """
