@@ -14,6 +14,10 @@
 - 予約相談CTAの整理
 - LINE/再訪導線
 
+## 公開URLの方針
+- 公開サイトは相手に見せる高品質な店舗サイト見本として作る。
+- 改善余地・コンサル内容・提案ロジックは公開サイトに出さず、メール/提案文で説明する。
+
 ## 根拠URL
 - https://www.tabirai.net/localinfo/article/article-47754/
 - https://tabelog.com/okinawa/A4705/A470503/47029175/

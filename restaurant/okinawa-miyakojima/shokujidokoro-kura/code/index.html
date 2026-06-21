@@ -3,81 +3,427 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>食事処 蔵 改善サンプルLP</title>
+  <title>食事処 蔵 | 宮古島の島料理・完全予約制</title>
+  <meta name="description" content="宮古島の島食材と郷土料理を、完全予約制のおまかせで味わう食事処 蔵のWebサイト制作サンプル。" />
   <meta name="robots" content="noindex" />
   <style>
-    :root { color-scheme: light; --ink:#172033; --muted:#5f6b7a; --brand:#d45b35; --soft:#fff4ed; --line:#ead8ca; }
+    :root {
+      color-scheme: light;
+      --ink: #17120d;
+      --muted: #6f6258;
+      --cream: #fbf5eb;
+      --paper: #fffaf2;
+      --sand: #ead7bd;
+      --gold: #b88845;
+      --deep: #24170f;
+      --green: #35533d;
+      --orange: #cc6238;
+      --line: rgba(82, 54, 31, .16);
+      --shadow: 0 24px 70px rgba(45, 29, 15, .16);
+    }
     * { box-sizing: border-box; }
-    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',system-ui,sans-serif; color:var(--ink); background:#fffaf6; }
-    .hero { min-height:72vh; display:grid; place-items:center; padding:48px 20px; background:radial-gradient(circle at top left,#fff 0,#fff4ed 44%,#f7dac8 100%); }
-    .wrap { width:min(1080px,100%); }
-    .eyebrow { color:var(--brand); font-weight:800; letter-spacing:.12em; font-size:.86rem; }
-    h1 { font-size:clamp(2.1rem,7vw,5.2rem); line-height:1.02; margin:.18em 0; letter-spacing:-.06em; }
-    .lead { max-width:720px; font-size:clamp(1.05rem,2vw,1.35rem); line-height:1.9; color:var(--muted); }
-    .cta-row { display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
-    .btn { display:inline-block; padding:14px 22px; border-radius:999px; text-decoration:none; font-weight:800; }
-    .btn.primary { color:white; background:var(--brand); box-shadow:0 12px 28px rgba(212,91,53,.25); }
-    .btn.secondary { color:var(--brand); background:#fff; border:1px solid var(--line); }
-    section { padding:64px 20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; }
-    .card { background:#fff; border:1px solid var(--line); border-radius:24px; padding:24px; box-shadow:0 18px 45px rgba(32,24,18,.06); }
-    h2 { font-size:clamp(1.5rem,3vw,2.4rem); margin:0 0 18px; letter-spacing:-.04em; }
-    li { margin:.55em 0; line-height:1.7; }
-    .note { color:var(--muted); font-size:.92rem; line-height:1.8; }
-    footer { padding:32px 20px; color:var(--muted); border-top:1px solid var(--line); background:#fff; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+      color: var(--ink);
+      background: var(--cream);
+    }
+    a { color: inherit; }
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+    .nav {
+      position: fixed;
+      inset: 18px 22px auto;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      max-width: 1180px;
+      margin: 0 auto;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 44px);
+      padding: 12px 14px 12px 18px;
+      border: 1px solid rgba(255,255,255,.34);
+      border-radius: 999px;
+      background: rgba(36, 23, 15, .55);
+      color: white;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 45px rgba(0,0,0,.16);
+    }
+    .brand { letter-spacing: .16em; font-weight: 700; }
+    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav a { text-decoration: none; }
+    .nav-links a { padding: 9px 12px; border-radius: 999px; color: rgba(255,255,255,.82); font-size: .9rem; }
+    .nav-links a.cta { background: #fff; color: var(--deep); font-weight: 700; }
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 130px 22px 70px;
+      background:
+        linear-gradient(120deg, rgba(16,12,8,.88), rgba(36,23,15,.54) 42%, rgba(247,229,204,.24)),
+        radial-gradient(circle at 72% 26%, rgba(244, 173, 83, .42), transparent 32%),
+        radial-gradient(circle at 21% 70%, rgba(71, 110, 80, .35), transparent 36%),
+        linear-gradient(135deg, #2b1b10, #6f3d25 45%, #f4d7b3);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .23;
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,.12) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,.1) 25%, transparent 25%);
+      background-size: 48px 48px;
+      mix-blend-mode: screen;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, 100%);
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      align-items: center;
+      gap: 42px;
+      color: white;
+    }
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      background: rgba(255,255,255,.09);
+      color: rgba(255,255,255,.86);
+      letter-spacing: .18em;
+      font-size: .78rem;
+    }
+    h1 {
+      margin: 22px 0 18px;
+      font-size: clamp(3rem, 8.4vw, 8.8rem);
+      line-height: .92;
+      letter-spacing: -.08em;
+      font-weight: 800;
+      text-wrap: balance;
+    }
+    .hero-copy {
+      max-width: 680px;
+      color: rgba(255,255,255,.86);
+      font-size: clamp(1rem, 1.65vw, 1.28rem);
+      line-height: 2.05;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 19px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,.26);
+    }
+    .button.primary { background: #fff; color: var(--deep); box-shadow: 0 20px 45px rgba(0,0,0,.22); }
+    .button.ghost { color: white; background: rgba(255,255,255,.08); }
+    .hero-card {
+      position: relative;
+      min-height: 520px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 38px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255,255,255,.9), rgba(255,245,228,.12) 18%, transparent 26%),
+        radial-gradient(circle at 28% 46%, rgba(255,170,80,.52), transparent 19%),
+        radial-gradient(circle at 68% 64%, rgba(62,94,68,.64), transparent 27%),
+        linear-gradient(150deg, rgba(255,255,255,.32), rgba(255,255,255,.06));
+      box-shadow: 0 34px 90px rgba(0,0,0,.28);
+    }
+    .hero-card::after {
+      content: "島食材\A おまかせ\A 完全予約制";
+      white-space: pre-line;
+      position: absolute;
+      inset: auto 26px 24px;
+      color: white;
+      font-size: clamp(2rem, 5vw, 4.8rem);
+      line-height: 1.06;
+      letter-spacing: -.06em;
+      font-weight: 800;
+      text-shadow: 0 12px 42px rgba(0,0,0,.38);
+    }
+    .float-note {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      width: min(280px, calc(100% - 44px));
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,250,242,.88);
+      color: var(--deep);
+      box-shadow: var(--shadow);
+    }
+    .float-note strong { display: block; margin-bottom: 6px; font-size: 1.06rem; }
+    .float-note span { display: block; color: var(--muted); line-height: 1.7; font-size: .92rem; }
+    section { padding: 92px 22px; }
+    .wrap { width: min(1180px, 100%); margin: 0 auto; }
+    .section-head { display: grid; grid-template-columns: .7fr 1fr; gap: 40px; align-items: end; margin-bottom: 34px; }
+    .kicker { color: var(--orange); letter-spacing: .16em; font-weight: 800; font-size: .78rem; }
+    h2 { margin: 8px 0 0; font-size: clamp(2.1rem, 4.8vw, 5rem); line-height: .98; letter-spacing: -.07em; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 2; font-size: 1.04rem; }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+    .story-card {
+      min-height: 310px;
+      padding: 26px;
+      border-radius: 30px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: 0 16px 45px rgba(45, 29, 15, .07);
+    }
+    .story-card.featured { grid-column: span 2; background: linear-gradient(135deg, #fffaf2, #f3dfc3); }
+    .story-card h3 { margin: 0 0 12px; font-size: 1.5rem; letter-spacing: -.03em; }
+    .story-card p, .story-card li { color: var(--muted); line-height: 1.9; }
+    .visual-strip { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; margin-top: 18px; }
+    .visual {
+      min-height: 360px;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 23% 28%, rgba(255,240,205,.95), transparent 19%),
+        radial-gradient(circle at 66% 42%, rgba(195,91,53,.72), transparent 20%),
+        radial-gradient(circle at 47% 72%, rgba(42,77,52,.7), transparent 24%),
+        linear-gradient(135deg, #2a1a12, #7a4328 54%, #e6bd81);
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+    .visual::after {
+      content: "MIYAKO ISLAND TABLE";
+      position: absolute;
+      left: 24px;
+      bottom: 22px;
+      color: rgba(255,255,255,.86);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+      font-weight: 900;
+      letter-spacing: .16em;
+      font-size: .82rem;
+    }
+    .menu-list { display: grid; gap: 12px; }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .menu-item strong { font-size: 1.12rem; }
+    .menu-item span { color: var(--muted); line-height: 1.7; }
+    .reservation {
+      background: var(--deep);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .reservation::before {
+      content: "";
+      position: absolute;
+      inset: -20% -10% auto auto;
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(197,137,71,.45), transparent 67%);
+    }
+    .reserve-box {
+      position: relative;
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+    .reserve-panel {
+      padding: 30px;
+      border-radius: 34px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+    }
+    .reserve-panel h2 { color: white; }
+    .steps { display: grid; gap: 14px; }
+    .step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    .num {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--deep);
+      font-weight: 900;
+    }
+    .step strong { display: block; margin-bottom: 4px; }
+    .step span { color: rgba(255,255,255,.72); line-height: 1.7; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .info-card { padding: 26px; border-radius: 28px; background: var(--paper); border: 1px solid var(--line); }
+    .info-card h3 { margin: 0 0 12px; }
+    .info-card p { margin: 0; color: var(--muted); line-height: 1.9; }
+    footer {
+      padding: 34px 22px;
+      background: #120d09;
+      color: rgba(255,255,255,.66);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+      font-size: .86rem;
+    }
+    footer .wrap { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    .demo-note { opacity: .62; }
+    @media (max-width: 860px) {
+      .nav { inset: 12px 12px auto; width: calc(100% - 24px); }
+      .nav-links a:not(.cta) { display: none; }
+      .hero { padding-top: 112px; }
+      .hero-inner, .section-head, .reserve-box, .visual-strip, .info-grid { grid-template-columns: 1fr; }
+      .hero-card { min-height: 380px; }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-card.featured { grid-column: span 1; }
+      section { padding: 70px 18px; }
+    }
   </style>
 </head>
 <body>
-  <main>
-    <div class="hero">
-      <div class="wrap">
-        <div class="eyebrow">飲食店 / 沖縄県宮古島市 / 提案用サンプル</div>
-        <h1>食事処 蔵の魅力を、予約につながる導線へ。</h1>
-        <p class="lead">このページは営業提案用の非公式モックです。お店の雰囲気・強み・来店導線を1ページで整理し、スマホから予約/問い合わせ/LINE追加まで迷わず進める形を想定しています。</p>
-        <div class="cta-row">
-          <a class="btn primary" href="#booking">予約導線を見る</a>
-          <a class="btn secondary" href="#proposal">改善ポイント</a>
-        </div>
-      </div>
+  <nav class="nav sans" aria-label="サイト内ナビゲーション">
+    <a class="brand" href="#top">食事処 蔵</a>
+    <div class="nav-links">
+      <a href="#story">こだわり</a>
+      <a href="#menu">お料理</a>
+      <a href="#reserve">ご予約</a>
+      <a class="cta" href="#reserve">予約相談</a>
     </div>
+  </nav>
 
-    <section id="proposal">
-      <div class="wrap">
-        <h2>見えている改善余地</h2>
-        <div class="grid">
-          <div class="card"><h3>課題シグナル</h3><ul><li>公式サイトなし・情報が複数媒体に分散</li>
-<li>完全予約制だがWeb上の予約導線が電話中心</li>
-<li>希少食材/おまかせコースの魅力を来店前に伝えるLPが弱い</li></ul></div>
-          <div class="card"><h3>最初の提案物</h3><ul><li>宮古島観光客向け1枚LP</li>
-<li>予約相談CTAの整理</li>
-<li>LINE/再訪導線</li></ul></div>
-          <div class="card"><h3>期待できる効果</h3><ul><li>スマホ検索から予約/問い合わせまでの離脱を減らす</li><li>営業時間・メニュー・アクセス情報を統一する</li><li>LINEや再来店施策へ自然につなげる</li></ul></div>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow sans">MIYAKOJIMA LOCAL TABLE</div>
+          <h1>島の滋味を、<br>静かに味わう。</h1>
+          <p class="hero-copy sans">宮古島の食材と郷土の知恵を、完全予約制のおまかせで。旅先の一夜を、土地の記憶に触れる食事の時間へ。</p>
+          <div class="cta-row">
+            <a class="button primary" href="#reserve">ご予約の流れを見る</a>
+            <a class="button ghost" href="#menu">おまかせ料理を見る</a>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="島食材を表現したビジュアル">
+          <div class="float-note sans">
+            <strong>完全予約制</strong>
+            <span>営業日・開始時間・お料理内容は、ご予約時に相談して決まる特別な一席です。</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="booking" style="background:var(--soft)">
+    <section id="story">
       <div class="wrap">
-        <h2>導線イメージ</h2>
-        <div class="grid">
-          <div class="card"><strong>1. 料理/雰囲気</strong><p class="note">写真・人気メニュー・利用シーンをファーストビューで訴求。</p></div>
-          <div class="card"><strong>2. 予約CTA</strong><p class="note">電話だけでなく、フォーム/予約サービス/LINEへの分かりやすいボタンを固定。</p></div>
-          <div class="card"><strong>3. 再来店</strong><p class="note">LINE友だち追加、季節メニュー、クーポン配信の入口を用意。</p></div>
+        <div class="section-head">
+          <div>
+            <div class="kicker sans">OUR STORY</div>
+            <h2>宮古島らしさを、<br>一皿ずつ。</h2>
+          </div>
+          <p class="sans">観光の食事では終わらない、島の食材・郷土料理・人のあたたかさを感じる時間。食事処 蔵の魅力を、初めて訪れる方にも伝わるように整理したWebサイト制作サンプルです。</p>
+        </div>
+        <div class="story-grid">
+          <article class="story-card featured">
+            <h3>予約して訪れる、特別な島料理。</h3>
+            <p class="sans">イラブー、山羊、イカスミ、アバサーなど、宮古島ならではの食材を中心に。おまかせだからこそ、その日の仕入れや相談内容に合わせた体験を打ち出せます。</p>
+          </article>
+          <article class="story-card">
+            <h3>旅人にも分かりやすく。</h3>
+            <p class="sans">完全予約制・相談型のお店ほど、来店前に「何を楽しめるか」「どう予約するか」が伝わるだけで安心感が高まります。</p>
+          </article>
+          <article class="story-card">
+            <h3>小さく、上質に。</h3>
+            <p class="sans">大きなサイトではなく、スマホで美しく見える1ページ。料理、予約、アクセスまで迷わず進める構成です。</p>
+          </article>
+          <article class="story-card">
+            <h3>再訪につながる余韻。</h3>
+            <p class="sans">旅の後も思い出してもらえるよう、LINE・季節のお知らせ・再訪導線へ自然につなげられます。</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section>
+    <section id="menu" style="background:#fffaf2">
       <div class="wrap">
-        <h2>参照した公開情報</h2>
-        <ul><li><a href="https://www.tabirai.net/localinfo/article/article-47754/">https://www.tabirai.net/localinfo/article/article-47754/</a></li>
-<li><a href="https://tabelog.com/okinawa/A4705/A470503/47029175/">https://tabelog.com/okinawa/A4705/A470503/47029175/</a></li>
-<li><a href="https://www.hotpepper.jp/strJ003385097/">https://www.hotpepper.jp/strJ003385097/</a></li>
-<li><a href="https://myakuzumi.com/21718/">https://myakuzumi.com/21718/</a></li></ul>
-        <p class="note">※このモックは公開情報をもとにした提案用サンプルであり、店舗公式サイトではありません。</p>
+        <div class="section-head">
+          <div>
+            <div class="kicker sans">OMAKASE</div>
+            <h2>おまかせで楽しむ、<br>島の味。</h2>
+          </div>
+          <p class="sans">掲載内容は公開情報をもとにした構成例です。実際の献立・価格・提供可否は季節や仕入れにより変わるため、ご予約時に相談する導線を前面に出します。</p>
+        </div>
+        <div class="visual-strip">
+          <div class="visual" role="img" aria-label="島料理の高級感を表す抽象ビジュアル"></div>
+          <div class="story-card">
+            <h3>料理の見せ方</h3>
+            <div class="menu-list sans">
+              <div class="menu-item"><strong>島食材</strong><span>宮古島らしい食材を、初見でも興味が湧く言葉で紹介。</span></div>
+              <div class="menu-item"><strong>おまかせ</strong><span>相談型コースの魅力を、予約前の不安を減らす形で整理。</span></div>
+              <div class="menu-item"><strong>旅の一夜</strong><span>観光客が「ここで食べたい」と思える体験価値を演出。</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reserve" class="reservation">
+      <div class="wrap reserve-box">
+        <div class="reserve-panel">
+          <div class="kicker sans">RESERVATION</div>
+          <h2>ご予約は、<br>相談から。</h2>
+          <p class="sans" style="color:rgba(255,255,255,.75); line-height:2; margin-top:18px;">完全予約制のお店に合わせて、電話・問い合わせ・LINEなどの導線をひとつに整理。人数、希望日、食べたいものを事前に伝えやすくします。</p>
+          <div class="cta-row">
+            <a class="button primary" href="tel:0980734071">電話で相談する</a>
+            <a class="button ghost" href="#access">アクセスを見る</a>
+          </div>
+        </div>
+        <div class="steps sans">
+          <div class="step"><div class="num">1</div><div><strong>希望日・人数を確認</strong><span>旅行日程に合わせて、まずは空き状況を相談。</span></div></div>
+          <div class="step"><div class="num">2</div><div><strong>食べたいものを伝える</strong><span>島料理、希少食材、おまかせなど、希望を事前に共有。</span></div></div>
+          <div class="step"><div class="num">3</div><div><strong>当日はゆっくり味わう</strong><span>宮古島の夜に、予約した人だけの落ち着いた食事時間を。</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="access">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker sans">ACCESS</div>
+            <h2>店舗情報</h2>
+          </div>
+          <p class="sans">予約前に必要な情報を、スマホで見やすく一箇所へ。営業時間や定休日は変動しやすいため、予約時確認を明記します。</p>
+        </div>
+        <div class="info-grid sans">
+          <div class="info-card"><h3>所在地</h3><p>沖縄県宮古島市平良久貝880-11</p></div>
+          <div class="info-card"><h3>予約・お問い合わせ</h3><p><a href="tel:0980734071">0980-73-4071</a><br>完全予約制 / 営業日は予約状況により変動</p></div>
+        </div>
       </div>
     </section>
   </main>
-  <footer>Generated by Hermes restaurant lead pipeline.</footer>
+
+  <footer>
+    <div class="wrap">
+      <span>© 食事処 蔵 — Website preview</span>
+      <span class="demo-note">非公式のWeb制作サンプルです。</span>
+    </div>
+  </footer>
 </body>
 </html>

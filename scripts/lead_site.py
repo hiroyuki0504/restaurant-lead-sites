@@ -160,6 +160,65 @@ def escape_attr(s: str) -> str:
     return escape_html(s).replace("'", "&#x27;")
 
 
+def html_template(name: str, industry: str, region: str, gaps: list[str], angles: list[str], source_urls: list[str]) -> str:
+    """High-quality customer-facing restaurant site preview.
+
+    Keep consulting/proposal rationale in proposal.md and email drafts; the public URL should
+    look like a polished restaurant site the prospect can imagine owning.
+    """
+    del gaps, source_urls  # internal-only; do not show weaknesses or citations on the public site
+    angle_text = " / ".join(angles[:3]) if angles else "Web site / Reservation / LINE"
+    return f"""<!doctype html>
+<html lang=\"ja\">
+<head>
+  <meta charset=\"utf-8\" />
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
+  <title>{escape_html(name)} | {escape_html(region)}のレストラン</title>
+  <meta name=\"description\" content=\"{escape_attr(name)}のWebサイト制作サンプル。スマホで美しく、予約まで迷わず進める高品質な1ページ。\" />
+  <meta name=\"robots\" content=\"noindex\" />
+  <style>
+    :root {{ color-scheme: light; --ink:#18120d; --muted:#706258; --cream:#fbf4e8; --paper:#fffaf2; --deep:#24170f; --gold:#b98745; --accent:#c85f36; --line:rgba(74,49,29,.16); --shadow:0 24px 70px rgba(45,29,15,.16); }}
+    * {{ box-sizing: border-box; }} html {{ scroll-behavior:smooth; }}
+    body {{ margin:0; font-family:-apple-system,BlinkMacSystemFont,'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif; color:var(--ink); background:var(--cream); }}
+    .sans {{ font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',system-ui,sans-serif; }}
+    .nav {{ position:fixed; inset:18px 22px auto; z-index:20; left:50%; transform:translateX(-50%); width:calc(100% - 44px); max-width:1180px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:12px 14px 12px 18px; border:1px solid rgba(255,255,255,.32); border-radius:999px; background:rgba(36,23,15,.58); color:white; backdrop-filter:blur(18px); box-shadow:0 12px 45px rgba(0,0,0,.16); }}
+    .brand {{ letter-spacing:.14em; font-weight:800; text-decoration:none; }} .nav-links {{ display:flex; gap:8px; align-items:center; }} .nav-links a {{ color:rgba(255,255,255,.84); text-decoration:none; padding:9px 12px; border-radius:999px; font-size:.9rem; }} .nav-links .cta {{ background:white; color:var(--deep); font-weight:800; }}
+    .hero {{ min-height:100vh; display:grid; place-items:center; position:relative; overflow:hidden; padding:130px 22px 70px; color:white; background:linear-gradient(120deg,rgba(16,12,8,.9),rgba(36,23,15,.58) 44%,rgba(247,229,204,.2)),radial-gradient(circle at 72% 26%,rgba(244,173,83,.42),transparent 32%),radial-gradient(circle at 21% 70%,rgba(71,110,80,.34),transparent 36%),linear-gradient(135deg,#2b1b10,#6f3d25 45%,#f4d7b3); }}
+    .hero::before {{ content:\"\"; position:absolute; inset:0; opacity:.22; background-image:linear-gradient(45deg,rgba(255,255,255,.12) 25%,transparent 25%),linear-gradient(-45deg,rgba(255,255,255,.1) 25%,transparent 25%); background-size:48px 48px; mix-blend-mode:screen; }}
+    .hero-inner {{ position:relative; z-index:1; width:min(1180px,100%); display:grid; grid-template-columns:1.08fr .92fr; align-items:center; gap:42px; }}
+    .eyebrow {{ display:inline-flex; padding:8px 12px; border:1px solid rgba(255,255,255,.24); border-radius:999px; background:rgba(255,255,255,.09); color:rgba(255,255,255,.88); letter-spacing:.18em; font-size:.78rem; }}
+    h1 {{ margin:22px 0 18px; font-size:clamp(3rem,8.4vw,8.7rem); line-height:.92; letter-spacing:-.08em; font-weight:800; text-wrap:balance; }}
+    .hero-copy {{ max-width:680px; color:rgba(255,255,255,.86); font-size:clamp(1rem,1.65vw,1.28rem); line-height:2.05; }}
+    .cta-row {{ display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }}
+    .button {{ display:inline-flex; align-items:center; gap:10px; padding:14px 19px; border-radius:999px; text-decoration:none; font-weight:800; border:1px solid rgba(255,255,255,.26); }} .button.primary {{ background:white; color:var(--deep); box-shadow:0 20px 45px rgba(0,0,0,.22); }} .button.ghost {{ color:white; background:rgba(255,255,255,.08); }}
+    .hero-card {{ position:relative; min-height:520px; border:1px solid rgba(255,255,255,.28); border-radius:38px; overflow:hidden; background:radial-gradient(circle at 50% 16%,rgba(255,255,255,.9),rgba(255,245,228,.12) 18%,transparent 26%),radial-gradient(circle at 28% 46%,rgba(255,170,80,.52),transparent 19%),radial-gradient(circle at 68% 64%,rgba(62,94,68,.64),transparent 27%),linear-gradient(150deg,rgba(255,255,255,.32),rgba(255,255,255,.06)); box-shadow:0 34px 90px rgba(0,0,0,.28); }}
+    .hero-card::after {{ content:\"季節の料理\\A 予約導線\\A 上質な体験\"; white-space:pre-line; position:absolute; inset:auto 26px 24px; color:white; font-size:clamp(2rem,5vw,4.8rem); line-height:1.06; letter-spacing:-.06em; font-weight:800; text-shadow:0 12px 42px rgba(0,0,0,.38); }}
+    .float-note {{ position:absolute; top:22px; right:22px; width:min(280px,calc(100% - 44px)); padding:18px; border-radius:24px; background:rgba(255,250,242,.9); color:var(--deep); box-shadow:var(--shadow); }} .float-note span {{ display:block; color:var(--muted); line-height:1.7; font-size:.92rem; }}
+    section {{ padding:92px 22px; }} .wrap {{ width:min(1180px,100%); margin:0 auto; }}
+    .section-head {{ display:grid; grid-template-columns:.72fr 1fr; gap:40px; align-items:end; margin-bottom:34px; }} .kicker {{ color:var(--accent); letter-spacing:.16em; font-weight:900; font-size:.78rem; }} h2 {{ margin:8px 0 0; font-size:clamp(2.1rem,4.8vw,5rem); line-height:.98; letter-spacing:-.07em; }} .section-head p {{ margin:0; color:var(--muted); line-height:2; font-size:1.04rem; }}
+    .cards {{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }} .card {{ min-height:280px; padding:26px; border-radius:30px; background:var(--paper); border:1px solid var(--line); box-shadow:0 16px 45px rgba(45,29,15,.07); }} .card h3 {{ margin:0 0 12px; font-size:1.45rem; letter-spacing:-.03em; }} .card p,.card li {{ color:var(--muted); line-height:1.9; }}
+    .feature {{ grid-column:span 2; background:linear-gradient(135deg,#fffaf2,#f3dfc3); }}
+    .visual-strip {{ display:grid; grid-template-columns:1.2fr .8fr; gap:18px; margin-top:18px; }} .visual {{ min-height:360px; border-radius:34px; border:1px solid var(--line); background:radial-gradient(circle at 23% 28%,rgba(255,240,205,.95),transparent 19%),radial-gradient(circle at 66% 42%,rgba(195,91,53,.72),transparent 20%),radial-gradient(circle at 47% 72%,rgba(42,77,52,.7),transparent 24%),linear-gradient(135deg,#2a1a12,#7a4328 54%,#e6bd81); box-shadow:var(--shadow); position:relative; }} .visual::after {{ content:\"{escape_html(region)} TABLE\"; position:absolute; left:24px; bottom:22px; color:rgba(255,255,255,.86); font-weight:900; letter-spacing:.16em; font-size:.82rem; }}
+    .menu-item {{ display:flex; justify-content:space-between; gap:20px; padding:18px 0; border-bottom:1px solid var(--line); }} .menu-item span {{ color:var(--muted); line-height:1.7; }}
+    .reservation {{ background:var(--deep); color:white; position:relative; overflow:hidden; }} .reservation::before {{ content:\"\"; position:absolute; inset:-20% -10% auto auto; width:520px; height:520px; background:radial-gradient(circle,rgba(197,137,71,.45),transparent 67%); }} .reserve-box {{ position:relative; display:grid; grid-template-columns:.85fr 1.15fr; gap:26px; }} .reserve-panel,.step {{ border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.08); }} .reserve-panel {{ padding:30px; border-radius:34px; backdrop-filter:blur(10px); }} .steps {{ display:grid; gap:14px; }} .step {{ display:grid; grid-template-columns:42px 1fr; gap:14px; padding:18px; border-radius:22px; }} .num {{ display:grid; place-items:center; width:42px; height:42px; border-radius:50%; background:var(--gold); color:var(--deep); font-weight:900; }} .step span,.reserve-panel p {{ color:rgba(255,255,255,.74); line-height:1.8; }}
+    footer {{ padding:34px 22px; background:#120d09; color:rgba(255,255,255,.66); font-size:.86rem; }} footer .wrap {{ display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; }} .demo-note {{ opacity:.62; }}
+    @media (max-width:860px) {{ .nav {{ inset:12px 12px auto; width:calc(100% - 24px); }} .nav-links a:not(.cta) {{ display:none; }} .hero {{ padding-top:112px; }} .hero-inner,.section-head,.reserve-box,.visual-strip {{ grid-template-columns:1fr; }} .hero-card {{ min-height:380px; }} .cards {{ grid-template-columns:1fr; }} .feature {{ grid-column:span 1; }} section {{ padding:70px 18px; }} }}
+  </style>
+</head>
+<body>
+  <nav class=\"nav sans\"><a class=\"brand\" href=\"#top\">{escape_html(name)}</a><div class=\"nav-links\"><a href=\"#story\">こだわり</a><a href=\"#menu\">お料理</a><a href=\"#reserve\">ご予約</a><a class=\"cta\" href=\"#reserve\">予約相談</a></div></nav>
+  <main id=\"top\">
+    <section class=\"hero\"><div class=\"hero-inner\"><div><div class=\"eyebrow sans\">{escape_html(industry)} / {escape_html(region)}</div><h1>土地の味を、<br>美しい体験へ。</h1><p class=\"hero-copy sans\">{escape_html(name)}の魅力を、初めて訪れる方にも伝わる1ページへ。料理・雰囲気・予約まで、スマホで迷わず進める高品質なWebサイトサンプルです。</p><div class=\"cta-row sans\"><a class=\"button primary\" href=\"#reserve\">ご予約の流れを見る</a><a class=\"button ghost\" href=\"#menu\">お料理を見る</a></div></div><div class=\"hero-card\"><div class=\"float-note sans\"><strong>Website Preview</strong><span>{escape_html(angle_text)} を自然に体験へつなげる構成。</span></div></div></div></section>
+    <section id=\"story\"><div class=\"wrap\"><div class=\"section-head\"><div><div class=\"kicker sans\">STORY</div><h2>お店らしさを、<br>一目で伝える。</h2></div><p class=\"sans\">料理の魅力、空間の雰囲気、予約導線をひとつの体験として整理。初めて訪れる方にも、お店の世界観が自然に伝わる構成です。</p></div><div class=\"cards\"><article class=\"card feature\"><h3>料理と体験を主役に。</h3><p class=\"sans\">ファーストビューで世界観を作り、予約前の期待値を高めます。写真が入る前でも、色・余白・言葉で上質感を出せる設計です。</p></article><article class=\"card\"><h3>スマホ最優先。</h3><p class=\"sans\">観光中・移動中でも見やすく、予約導線まで短く進める構成。</p></article><article class=\"card\"><h3>予約に迷わない。</h3><p class=\"sans\">電話、フォーム、LINEなど任意の導線を整理して、来店までの不安を減らします。</p></article><article class=\"card\"><h3>再訪につなげる。</h3><p class=\"sans\">季節メニューやお知らせ導線を作り、1回来店で終わらない関係を作ります。</p></article></div></div></section>
+    <section id=\"menu\" style=\"background:#fffaf2\"><div class=\"wrap\"><div class=\"section-head\"><div><div class=\"kicker sans\">MENU</div><h2>魅力が伝わる、<br>料理紹介。</h2></div><p class=\"sans\">実際の献立・価格・写真が揃えば差し替え可能な、完成度重視のセクションです。</p></div><div class=\"visual-strip\"><div class=\"visual\"></div><div class=\"card\"><h3>見せ方の軸</h3><div class=\"sans\"><div class=\"menu-item\"><strong>名物</strong><span>最初に食べてほしい一皿を大きく見せる。</span></div><div class=\"menu-item\"><strong>コース</strong><span>予約前に分かる範囲で流れを説明。</span></div><div class=\"menu-item\"><strong>季節感</strong><span>旬・限定・地元食材の価値を演出。</span></div></div></div></div></div></section>
+    <section id=\"reserve\" class=\"reservation\"><div class=\"wrap reserve-box\"><div class=\"reserve-panel\"><div class=\"kicker sans\">RESERVATION</div><h2>予約まで、<br>迷わせない。</h2><p class=\"sans\">お店に合わせて予約・問い合わせ・LINE導線を整理。人数、希望日、要望まで自然に伝えられる流れを用意します。</p><div class=\"cta-row sans\"><a class=\"button primary\" href=\"#\">予約相談する</a><a class=\"button ghost\" href=\"#top\">ページ上部へ</a></div></div><div class=\"steps sans\"><div class=\"step\"><div class=\"num\">1</div><div><strong>希望日を選ぶ</strong><span>来店前に必要な情報を簡単に伝えられる。</span></div></div><div class=\"step\"><div class=\"num\">2</div><div><strong>人数・要望を共有</strong><span>コース、席、アレルギーなども事前確認。</span></div></div><div class=\"step\"><div class=\"num\">3</div><div><strong>来店後もつながる</strong><span>LINEやお知らせで再来店導線を作る。</span></div></div></div></div></section>
+  </main>
+  <footer class=\"sans\"><div class=\"wrap\"><span>© {escape_html(name)} — Website preview</span><span class=\"demo-note\">非公式のWeb制作サンプルです。</span></div></footer>
+</body>
+</html>
+"""
+
+
 class Parser(html.parser.HTMLParser):
     pass
 
