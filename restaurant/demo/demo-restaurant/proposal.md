@@ -2,7 +2,7 @@
 
 - 業種: 飲食店
 - 地域: _demo
-- コード: `/Users/hiroyuki/restaurant-lead-sites/飲食店/_demo/demo-restaurant/code`
+- コード: `/Users/hiroyuki/restaurant-lead-sites/restaurant/demo/demo-restaurant/code`
 
 ## 改善余地
 - 予約導線が分かりにくい

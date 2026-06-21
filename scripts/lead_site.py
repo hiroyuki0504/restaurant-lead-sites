@@ -16,6 +16,7 @@ import html.parser
 import json
 import os
 import re
+import hashlib
 import subprocess
 import sys
 from pathlib import Path
@@ -41,13 +42,30 @@ def slugify(text: str) -> str:
     return "lead-" + dt.datetime.now().strftime("%Y%m%d-%H%M%S")
 
 
-def safe_part(text: str) -> str:
-    text = (text or "未分類").strip().replace("/", "-").replace(":", "-")
-    return text or "未分類"
+def safe_part(text: str, kind: str = "part") -> str:
+    """Return an ASCII directory name that GitHub Pages serves reliably.
+
+    Keep the original Japanese industry/region in lead.json and proposal.md;
+    use ASCII slugs for the filesystem/public URL.
+    """
+    raw = (text or "uncategorized").strip().replace("/", "-").replace(":", "-")
+    known = {
+        "飲食店": "restaurant",
+        "レストラン": "restaurant",
+        "飲食": "restaurant",
+        "_demo": "demo",
+    }
+    if raw in known:
+        return known[raw]
+    slug = slugify(raw)
+    if slug:
+        return slug
+    digest = hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
+    return f"{kind}-{digest}"
 
 
 def lead_dir(industry: str, region: str, slug: str) -> Path:
-    return ROOT / safe_part(industry) / safe_part(region) / safe_part(slug)
+    return ROOT / safe_part(industry, "industry") / safe_part(region, "region") / safe_part(slug, "lead")
 
 
 def html_template(name: str, industry: str, region: str, gaps: list[str], angles: list[str], source_urls: list[str]) -> str:
