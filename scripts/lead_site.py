@@ -65,8 +65,8 @@ def safe_part(text: str, kind: str = "part") -> str:
     return f"{kind}-{digest}"
 
 
-def lead_dir(industry: str, region: str, slug: str) -> Path:
-    return ROOT / safe_part(industry, "industry") / safe_part(region, "region") / safe_part(slug, "lead")
+def lead_dir(industry: str, region: str, slug: str, industry_slug: str | None = None, region_slug: str | None = None) -> Path:
+    return ROOT / safe_part(industry_slug or industry, "industry") / safe_part(region_slug or region, "region") / safe_part(slug, "lead")
 
 
 def html_template(name: str, industry: str, region: str, gaps: list[str], angles: list[str], source_urls: list[str]) -> str:
@@ -253,7 +253,7 @@ def cmd_check(_: argparse.Namespace) -> int:
 
 def cmd_scaffold(args: argparse.Namespace) -> int:
     slug = args.slug or slugify(args.name)
-    base = lead_dir(args.industry, args.region, slug)
+    base = lead_dir(args.industry, args.region, slug, args.industry_slug, args.region_slug)
     code = base / "code"
     code.mkdir(parents=True, exist_ok=True)
     gaps = args.gap or []
@@ -375,7 +375,9 @@ def main() -> int:
     p.set_defaults(func=cmd_check)
     p = sub.add_parser("scaffold")
     p.add_argument("--industry", default="飲食店")
+    p.add_argument("--industry-slug", help="ASCII public path segment; original industry is kept in lead.json")
     p.add_argument("--region", required=True)
+    p.add_argument("--region-slug", help="ASCII public path segment; original region is kept in lead.json")
     p.add_argument("--name", required=True)
     p.add_argument("--slug")
     p.add_argument("--gap", action="append", default=[])
