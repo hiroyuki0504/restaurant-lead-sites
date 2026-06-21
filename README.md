@@ -38,4 +38,6 @@ python3 scripts/lead_site.py deploy-vercel --industry 飲食店 --region 東京�
 
 ## Deployment note
 
-Vercel CLI credentials are not present yet on this machine. Run `npx vercel login` once, then the deploy command can publish each approved lead site and record the deployment URL in `lead.json`.
+This repo is published with GitHub Pages from the `main` branch root. Each generated site is viewable under the repo Pages URL at `/<industry>/<region>/<lead-slug>/code/`.
+
+Vercel can still be used later for individual lead sites. Vercel CLI credentials are not present yet on this machine; run `npx vercel login` once, then the deploy command can publish each approved lead site and record the deployment URL in `lead.json`.
