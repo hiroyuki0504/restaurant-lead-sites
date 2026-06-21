@@ -5,8 +5,8 @@ Approved lead sample sites are managed here as a single git repository.
 ## Directory layout
 
 ```text
-<industry>/<region>/<lead-slug>/
-  lead.json        # source URLs, observed gaps, proposal angles, deployment info
+<industry-slug>/<region-slug>/<lead-slug>/
+  lead.json        # original industry/region names, source URLs, gaps, deployment info
   proposal.md      # human-readable proposal brief
   code/            # deployable static site root
     index.html
@@ -16,8 +16,10 @@ Approved lead sample sites are managed here as a single git repository.
 Example:
 
 ```text
-飲食店/東京都渋谷区/sample-bistro/code/index.html
+restaurant/tokyo-shibuya/sample-bistro/code/index.html
 ```
+
+Japanese labels are preserved inside `lead.json` / `proposal.md`; filesystem paths use ASCII slugs so GitHub Pages serves them reliably.
 
 ## Workflow
 
@@ -38,6 +40,6 @@ python3 scripts/lead_site.py deploy-vercel --industry 飲食店 --region 東京�
 
 ## Deployment note
 
-This repo is published with GitHub Pages from the `main` branch root. Each generated site is viewable under the repo Pages URL at `/<industry>/<region>/<lead-slug>/code/`.
+This repo is published with GitHub Pages from the `main` branch root. Each generated site is viewable under the repo Pages URL at `/<industry-slug>/<region-slug>/<lead-slug>/code/`.
 
 Vercel can still be used later for individual lead sites. Vercel CLI credentials are not present yet on this machine; run `npx vercel login` once, then the deploy command can publish each approved lead site and record the deployment URL in `lead.json`.

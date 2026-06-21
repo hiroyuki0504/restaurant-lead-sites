@@ -3,7 +3,7 @@
   "industry": "飲食店",
   "region": "_demo",
   "slug": "demo-restaurant",
-  "created_at": "2026-06-21T16:38:41.647993+00:00",
+  "created_at": "2026-06-21T16:40:14.628824+00:00",
   "source_urls": [
     "https://example.com"
   ],
@@ -16,5 +16,9 @@
     "LINE導線"
   ],
   "code_dir": "/Users/hiroyuki/restaurant-lead-sites/restaurant/demo/demo-restaurant/code",
-  "deployment": null
+  "deployment": {
+    "provider": "github_pages",
+    "url": "https://hiroyuki0504.github.io/restaurant-lead-sites/restaurant/demo/demo-restaurant/code/index.html",
+    "source": "main:/"
+  }
 }

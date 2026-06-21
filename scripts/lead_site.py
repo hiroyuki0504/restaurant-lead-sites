@@ -24,6 +24,7 @@ from typing import Any
 from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
+PAGES_BASE_URL = os.getenv("RESTAURANT_LEAD_SITES_BASE_URL", "https://hiroyuki0504.github.io/restaurant-lead-sites/")
 
 
 def run(cmd: list[str], cwd: Path | None = None, check: bool = False) -> subprocess.CompletedProcess[str]:
@@ -260,6 +261,7 @@ def cmd_scaffold(args: argparse.Namespace) -> int:
     urls = args.source_url or []
     (code / "index.html").write_text(html_template(args.name, args.industry, args.region, gaps, angles, urls), encoding="utf-8")
     (code / "vercel.json").write_text(json.dumps({"cleanUrls": True, "trailingSlash": False}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    public_path = quote((code / "index.html").relative_to(ROOT).as_posix(), safe="/._-~")
     metadata = {
         "name": args.name,
         "industry": args.industry,
@@ -270,7 +272,11 @@ def cmd_scaffold(args: argparse.Namespace) -> int:
         "gaps": gaps,
         "proposal_angles": angles,
         "code_dir": str(code),
-        "deployment": None,
+        "deployment": {
+            "provider": "github_pages",
+            "url": PAGES_BASE_URL.rstrip("/") + "/" + public_path,
+            "source": "main:/",
+        },
     }
     (base / "lead.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     proposal = [
