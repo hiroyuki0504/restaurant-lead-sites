@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "status": "ready_with_generated_atmosphere_assets",
+  "policy": "Public page uses no copied third-party or user-posted restaurant photos. Visuals are AI-generated abstract atmosphere/texture assets, not depictions of the shop dishes or interior.",
+  "selected_assets": [
+    {
+      "path": "code/assets/kura-hero-atmosphere.jpg",
+      "type": "ai-generated atmosphere",
+      "source": "https://v3b.fal.media/files/b/0a9f5101/3vGnxgXYy7slTb59o8IIh_2rZWd2yE.png",
+      "public_use": "yes",
+      "note": "abstract mood image; no food/people/text/logo"
+    },
+    {
+      "path": "code/assets/kura-washi-texture.jpg",
+      "type": "ai-generated texture",
+      "source": "https://v3b.fal.media/files/b/0a9f510a/CiHy1UlKr79-YIH0iLbaf_Y2kzGXjw.png",
+      "public_use": "yes",
+      "note": "abstract textile/paper texture"
+    }
+  ],
+  "source_urls": [
+    "https://oki-raku.net/blog/inaka-restaurant-kura/",
+    "https://tabelog.com/okinawa/A4705/A470503/47029175/",
+    "https://myakuzumi.com/21718/",
+    "https://map.yahoo.co.jp/v3/place/GI3yqaKU5sA",
+    "https://www.tripadvisor.jp/Restaurant_Review-g680765-d7433498-Reviews-Kura-Miyakojima_Okinawa_Prefecture_Kyushu.html"
+  ],
+  "replacement_plan": [
+    "店舗提供の外観写真",
+    "女将のおまかせ料理の正式写真",
+    "店内の木目空間",
+    "予約時に案内したい地図/駐車場写真"
+  ]
+}

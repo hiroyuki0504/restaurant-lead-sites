@@ -1,29 +1,41 @@
 {
-  "name": "食事処 蔵",
+  "name": "田舎料理の店 蔵 / 食事処 蔵",
   "industry": "飲食店",
-  "region": "沖縄県宮古島市",
+  "region": "沖縄県宮古島市平良字久貝",
   "slug": "shokujidokoro-kura",
-  "created_at": "2026-06-21T16:45:56.795123+00:00",
+  "updated_at": "2026-06-22T12:32:11.885727+00:00",
   "source_urls": [
-    "https://www.tabirai.net/localinfo/article/article-47754/",
+    "https://oki-raku.net/blog/inaka-restaurant-kura/",
     "https://tabelog.com/okinawa/A4705/A470503/47029175/",
-    "https://www.hotpepper.jp/strJ003385097/",
-    "https://myakuzumi.com/21718/"
+    "https://myakuzumi.com/21718/",
+    "https://map.yahoo.co.jp/v3/place/GI3yqaKU5sA",
+    "https://www.tripadvisor.jp/Restaurant_Review-g680765-d7433498-Reviews-Kura-Miyakojima_Okinawa_Prefecture_Kyushu.html"
   ],
+  "facts": {
+    "address": "沖縄県宮古島市平良字久貝880-11",
+    "phone": "0980-73-4071",
+    "hours": "18:00-23:00（完全予約制として紹介）",
+    "reservation": "前日までの予約必須として紹介",
+    "offer": "女将のおまかせ 7〜8品ほどの宮古島郷土料理",
+    "recognition": "創業約35年、地元食材/宮古の家庭料理として紹介",
+    "tabelog": "3.06 / 口コミ7人 / 保存538人 / 写真59枚",
+    "yahoo_map": "4.13 / 7件 / 住所・電話掲載"
+  },
   "gaps": [
-    "公式サイトなし・情報が複数媒体に分散",
-    "完全予約制だがWeb上の予約導線が電話中心",
-    "希少食材/おまかせコースの魅力を来店前に伝えるLPが弱い"
+    "公式サイトまたは公式予約ページは主要検索・主要媒体上では確認できませんでした",
+    "営業時間・予約条件が媒体により分散/差分あり",
+    "魅力的な料理/女将/予約制の文脈が第三者記事や口コミに分散"
   ],
   "proposal_angles": [
-    "宮古島観光客向け1枚LP",
-    "予約相談CTAの整理",
-    "LINE/再訪導線"
+    "最高品質1ページLP",
+    "前日予約の安心導線",
+    "写真/ストーリー整備",
+    "Google/媒体情報の整理"
   ],
-  "code_dir": "/Users/hiroyuki/restaurant-lead-sites/restaurant/okinawa-miyakojima/shokujidokoro-kura/code",
+  "asset_status": "ready_with_generated_atmosphere_assets",
   "deployment": {
     "provider": "github_pages",
     "url": "https://hiroyuki0504.github.io/restaurant-lead-sites/restaurant/okinawa-miyakojima/shokujidokoro-kura/code/index.html",
-    "source": "main:/"
+    "source": "main:restaurant/okinawa-miyakojima/shokujidokoro-kura/code/index.html"
   }
 }
