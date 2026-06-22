@@ -29,5 +29,6 @@
     "source": "main:/"
   },
   "asset_policy": "Public previews must use shop-provided, self-shot, licensed, or explicitly approved photos. Do not copy Google Business, Tabelog, Hot Pepper, blog, Instagram, or X photos without permission.",
-  "asset_status": "needs_shop_photos"
+  "asset_status": "needs_shop_photos",
+  "design_profile": "mountain-miso"
 }

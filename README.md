@@ -27,8 +27,8 @@ Japanese labels are preserved inside `lead.json` / `proposal.md`; filesystem pat
 2. User approves one lead with `APPROVE_LEAD #N`.
 3. Hermes runs `scripts/lead_site.py scaffold ...` to create this directory structure.
 4. Before rendering, the scaffold writes `code/assets/asset-manifest.json` and `asset-plan.md` so photos are explicit, rights-tagged inputs.
-5. The public page uses the fixed restaurant template: approved real photos when available; otherwise honest photo slots. It must not draw fake ramen/food with CSS gradients.
-6. Hermes runs static QA automatically; add `--visual-qa` or `visual-qa --screenshots` to capture Playwright desktop/mobile screenshots.
+5. The public page uses a per-restaurant design profile: approved real photos when available; otherwise honest photo slots. It must not draw fake ramen/food with CSS gradients.
+6. Hermes runs static QA automatically; add `--visual-qa` or `visual-qa --screenshots` to capture Playwright desktop/mobile screenshots and verify the page does not have an AI-generated LP face.
 7. Hermes commits all generated code to this repo.
 8. GitHub Pages publishes from `main`; Vercel remains optional for individual sites.
 
