@@ -1,0 +1,31 @@
+{
+  "name": "麺屋 梅ノ木",
+  "industry": "飲食店",
+  "region": "山梨県北都留郡小菅村",
+  "slug": "menya-umenoki",
+  "created_at": "2026-06-22T00:00:00+09:00",
+  "source_urls": [
+    "https://tabelog.com/yamanashi/A1905/A190503/19012554/",
+    "https://www.instagram.com/ume_tree3338/",
+    "https://x.com/ume_tree3338",
+    "https://hamoni.jp/shop/ziuisyd5R0X8h6pYgpIs",
+    "https://autoreserve.com/ja/restaurants/fTGATPtoSY34mdfTj1TC"
+  ],
+  "gaps": [
+    "主要検索・主要媒体上では、店舗公式サイトまたは公式予約ページを確認できませんでした",
+    "食べログ・SNS・予約系媒体に情報が分散しており、来店前確認の公式ハブが弱い可能性",
+    "小菅村の目的地型来店では、営業時間・売切れ・アクセス・支払い確認の導線整理が刺さりやすい"
+  ],
+  "proposal_angles": [
+    "公式1ページLP",
+    "予約前安心導線",
+    "SNS導線整理",
+    "写真・ストーリー整備"
+  ],
+  "code_dir": "/Users/hiroyuki/restaurant-lead-sites/restaurant/yamanashi-kosuge/menya-umenoki/code",
+  "deployment": {
+    "provider": "github_pages",
+    "url": "https://hiroyuki0504.github.io/restaurant-lead-sites/restaurant/yamanashi-kosuge/menya-umenoki/code/index.html",
+    "source": "main:/"
+  }
+}
