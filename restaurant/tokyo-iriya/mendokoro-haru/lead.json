@@ -1,0 +1,36 @@
+{
+  "name": "麺処 晴",
+  "industry": "飲食店",
+  "region": "東京都台東区入谷",
+  "slug": "mendokoro-haru",
+  "created_at": "2026-06-22T00:00:00+09:00",
+  "source_urls": [
+    "https://tabelog.com/tokyo/A1311/A131104/13143115/",
+    "https://tabelog.com/tokyo/A1311/A131104/13143115/dtlrvwlst/B527543984/",
+    "https://x.com/men_haru?lang=ja",
+    "https://www.hotpepper.jp/strJ001044280/"
+  ],
+  "facts": {
+    "address": "東京都台東区下谷1-11-7",
+    "access": "東京メトロ日比谷線 入谷駅から徒歩約1分",
+    "genre": "煮干し系ラーメン",
+    "reservation_status": "予約不可として掲載確認",
+    "seats": "7席・カウンターのみとして掲載確認",
+    "official_social": "X: https://x.com/men_haru"
+  },
+  "gaps": [
+    "主要検索・主要媒体上では、店舗公式サイトまたは公式予約ページを確認できませんでした。",
+    "営業日・臨休・限定メニュー確認がSNS/媒体に分散している可能性",
+    "席数が少なく予約不可のため、初来店者向けの来店前案内が重要"
+  ],
+  "proposal_angles": [
+    "予約前安心導線",
+    "営業情報整理LP",
+    "公式X連携"
+  ],
+  "deployment": {
+    "provider": "github_pages",
+    "url": "https://hiroyuki0504.github.io/restaurant-lead-sites/restaurant/tokyo-iriya/mendokoro-haru/code/index.html",
+    "source": "main:/"
+  }
+}
