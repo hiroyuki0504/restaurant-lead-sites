@@ -24,6 +24,14 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
+from restaurant_preview import (
+    build_asset_manifest,
+    render_site_html,
+    run_playwright_visual_qa,
+    write_asset_plan,
+    write_static_qa,
+)
+
 ROOT = Path(__file__).resolve().parents[1]
 PAGES_BASE_URL = os.getenv("RESTAURANT_LEAD_SITES_BASE_URL", "https://hiroyuki0504.github.io/restaurant-lead-sites/")
 
@@ -237,7 +245,30 @@ def cmd_scaffold(args: argparse.Namespace) -> int:
     gaps = args.gap or []
     angles = args.angle or []
     urls = args.source_url or []
-    (code / "index.html").write_text(html_template(args.name, args.industry, args.region, gaps, angles, urls), encoding="utf-8")
+    asset_manifest = build_asset_manifest(
+        args.name,
+        photo_urls=args.photo_url or [],
+        photo_alts=args.photo_alt or [],
+        photo_rights=args.photo_rights or [],
+        source_urls=urls,
+    )
+    (code / "assets").mkdir(exist_ok=True)
+    (code / "assets" / "asset-manifest.json").write_text(
+        json.dumps(asset_manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    write_asset_plan(base / "asset-plan.md", args.name, asset_manifest)
+    (code / "index.html").write_text(
+        render_site_html(
+            name=args.name,
+            industry=args.industry,
+            region=args.region,
+            angles=angles,
+            asset_manifest=asset_manifest,
+            palette=args.palette,
+        ),
+        encoding="utf-8",
+    )
     (code / "vercel.json").write_text(json.dumps({"cleanUrls": True, "trailingSlash": False}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     public_path = quote((code / "index.html").relative_to(ROOT).as_posix(), safe="/._-~")
     metadata = {
@@ -249,6 +280,8 @@ def cmd_scaffold(args: argparse.Namespace) -> int:
         "source_urls": urls,
         "gaps": gaps,
         "proposal_angles": angles,
+        "asset_policy": asset_manifest["policy"],
+        "asset_status": asset_manifest["status"],
         "code_dir": str(code),
         "deployment": {
             "provider": "github_pages",
@@ -273,12 +306,24 @@ def cmd_scaffold(args: argparse.Namespace) -> int:
         "## 根拠URL",
         *(f"- {u}" for u in urls),
         "",
+        "## 写真取得・権利方針",
+        f"- 状態: `{asset_manifest['status']}`",
+        "- 料理写真を主役にする。CSSの偽料理・偽ラーメンは使わない。",
+        "- 公開HTMLに入れるのは、店舗提供・自前撮影・商用ライセンス・明示許可済み素材だけ。",
+        "- Google Business / 食べログ / Hot Pepper / SNS 等の第三者画像は無断コピーしない。",
+        "- 詳細: `asset-plan.md` / `code/assets/asset-manifest.json`",
+        "",
         "## 安全メモ",
         "- これは営業提案用の非公式サンプルであり、店舗公式サイトではありません。",
         "- 外部送信は最終承認後のみ。",
     ]
     (base / "proposal.md").write_text("\n".join(proposal) + "\n", encoding="utf-8")
     verify_html(code / "index.html")
+    qa_result = write_static_qa(code, asset_manifest)
+    if not qa_result["ok"]:
+        raise RuntimeError(f"static visual QA failed: {qa_result}")
+    if args.visual_qa:
+        run_playwright_visual_qa(code)
     generate_index()
     if args.git_commit:
         ensure_git_repo()
@@ -314,6 +359,24 @@ def cmd_index(args: argparse.Namespace) -> int:
         git_commit(args.message)
     print(json.dumps({"success": True, "index_html": str(out)}, ensure_ascii=False, indent=2))
     return 0
+
+
+def cmd_visual_qa(args: argparse.Namespace) -> int:
+    code = Path(args.code_dir)
+    if not code.is_absolute():
+        code = ROOT / code
+    manifest_path = code / "assets" / "asset-manifest.json"
+    if not (code / "index.html").exists():
+        print(json.dumps({"success": False, "error": f"No index.html at {code}"}, ensure_ascii=False), file=sys.stderr)
+        return 2
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {"status": "unknown", "selected_photos": []}
+    static = write_static_qa(code, manifest)
+    result: dict[str, Any] = {"success": static["ok"], "static": static}
+    if args.screenshots:
+        result["playwright"] = run_playwright_visual_qa(code)
+        result["success"] = bool(result["success"] and result["playwright"].get("ok"))
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0 if result["success"] else 1
 
 
 def update_deployment(industry: str, region: str, slug: str, provider: str, url: str) -> None:
@@ -361,6 +424,11 @@ def main() -> int:
     p.add_argument("--gap", action="append", default=[])
     p.add_argument("--angle", action="append", default=[])
     p.add_argument("--source-url", action="append", default=[])
+    p.add_argument("--photo-url", action="append", default=[], help="approved/local/licensed photo URL or path; paired with --photo-rights")
+    p.add_argument("--photo-alt", action="append", default=[])
+    p.add_argument("--photo-rights", action="append", default=[], help="must be approved/shop-approved/owned/licensed to render in public HTML")
+    p.add_argument("--palette", default="niboshi", choices=["niboshi", "miso", "warm"])
+    p.add_argument("--visual-qa", action="store_true", help="also run Playwright screenshots for responsive QA")
     p.add_argument("--git-commit", action="store_true")
     p.set_defaults(func=cmd_scaffold)
     p = sub.add_parser("commit")
@@ -370,6 +438,10 @@ def main() -> int:
     p.add_argument("--git-commit", action="store_true")
     p.add_argument("--message", default="chore: update lead site index")
     p.set_defaults(func=cmd_index)
+    p = sub.add_parser("visual-qa")
+    p.add_argument("code_dir", help="lead code directory, e.g. restaurant/.../code")
+    p.add_argument("--screenshots", action="store_true", help="capture Playwright screenshots at standard viewports")
+    p.set_defaults(func=cmd_visual_qa)
     p = sub.add_parser("deploy-vercel")
     p.add_argument("--industry", default="飲食店")
     p.add_argument("--region", required=True)

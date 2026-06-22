@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "screenshots": {
+    "desktop": "/Users/hiroyuki/restaurant-lead-sites/restaurant/yamanashi-kosuge/menya-umenoki/code/qa/desktop.png",
+    "laptop": "/Users/hiroyuki/restaurant-lead-sites/restaurant/yamanashi-kosuge/menya-umenoki/code/qa/laptop.png",
+    "tablet": "/Users/hiroyuki/restaurant-lead-sites/restaurant/yamanashi-kosuge/menya-umenoki/code/qa/tablet.png",
+    "phone": "/Users/hiroyuki/restaurant-lead-sites/restaurant/yamanashi-kosuge/menya-umenoki/code/qa/phone.png",
+    "small-phone": "/Users/hiroyuki/restaurant-lead-sites/restaurant/yamanashi-kosuge/menya-umenoki/code/qa/small-phone.png"
+  },
+  "errors": {}
+}

@@ -1,0 +1,220 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Fixed restaurant preview template and visual QA helpers.
+
+The public page is a restaurant-site mockup, not a consulting deck. It either uses
+approved real photos or explicit photo slots; it never draws fake food/ramen with CSS.
+"""
+from __future__ import annotations
+
+import html
+import json
+import subprocess
+from pathlib import Path
+from typing import Any
+
+APPROVED_RIGHTS = {"approved", "shop-approved", "shop-owned", "owned", "licensed", "official-approved"}
+BANNED_PUBLIC_TERMS = [
+    "改善余地",
+    "課題シグナル",
+    "最初の提案物",
+    "参照した公開情報",
+    "コンサル",
+    "提案ロジック",
+    "Webサイト制作サンプル",
+    "課題",
+    "CSS",
+    "テンプレート",
+    "未取得",
+    "取得計画",
+    "許諾済み",
+    "店舗提供",
+]
+VIEWPORTS = {
+    "desktop": "1440,1100",
+    "laptop": "1024,900",
+    "tablet": "768,1024",
+    "phone": "390,844",
+    "small-phone": "360,780",
+}
+
+
+def escape(value: Any) -> str:
+    return html.escape(str(value), quote=False)
+
+
+def escape_attr(value: Any) -> str:
+    return html.escape(str(value), quote=True)
+
+
+def build_asset_manifest(
+    name: str,
+    photo_urls: list[str] | None = None,
+    photo_alts: list[str] | None = None,
+    photo_rights: list[str] | None = None,
+    source_urls: list[str] | None = None,
+) -> dict[str, Any]:
+    candidates: list[dict[str, Any]] = []
+    photo_urls = photo_urls or []
+    photo_alts = photo_alts or []
+    photo_rights = photo_rights or []
+    for index, url in enumerate(photo_urls):
+        rights = (photo_rights[index] if index < len(photo_rights) else "needs_review").strip()
+        item = {
+            "url": url.strip(),
+            "alt": (photo_alts[index] if index < len(photo_alts) else f"{name}の店舗写真"),
+            "rights": rights,
+            "source": "scaffold_arg",
+            "kind": "photo",
+            "usable_in_public_html": rights in APPROVED_RIGHTS,
+        }
+        if item["url"]:
+            candidates.append(item)
+    selected = [item for item in candidates if item["usable_in_public_html"]][:6]
+    return {
+        "version": 1,
+        "status": "ready_with_photos" if selected else "needs_shop_photos",
+        "policy": (
+            "Public previews must use shop-provided, self-shot, licensed, or explicitly approved photos. "
+            "Do not copy Google Business, Tabelog, Hot Pepper, blog, Instagram, or X photos without permission."
+        ),
+        "fallback_policy": "When no approved photo exists, show photo slots; do not fake ramen/food with CSS gradients.",
+        "selected_photos": selected,
+        "candidates": candidates,
+        "source_urls": source_urls or [],
+        "recommended_shots": [
+            "hero: 代表料理を大きく",
+            "gallery: 外観/入口",
+            "gallery: 店内/カウンター",
+            "support: メニュー/券売機/アクセス",
+        ],
+    }
+
+
+def render_site_html(
+    *,
+    name: str,
+    industry: str,
+    region: str,
+    angles: list[str],
+    asset_manifest: dict[str, Any],
+    palette: str = "niboshi",
+) -> str:
+    angle_text = " / ".join(angles[:3]) if angles else "料理・来店前情報・予約導線"
+    photo_cards = render_photo_cards(asset_manifest, name)
+    palette_class = palette if palette in {"niboshi", "miso", "warm"} else "niboshi"
+    return f"""<!doctype html>
+<html lang="ja" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{escape(name)} | {escape(region)}の店舗案内</title>
+  <meta name="description" content="{escape_attr(name)}の料理、空間、来店前の確認をスマホで見やすくまとめた店舗ページ。" />
+  <meta name="robots" content="noindex" />
+  <script>document.documentElement.classList.replace('no-js','js');</script>
+  <style>{template_css()}</style>
+</head>
+<body class="palette-{escape_attr(palette_class)}" data-photo-status="{escape_attr(asset_manifest['status'])}">
+  <nav class="site-nav" aria-label="主要メニュー"><a class="site-brand" href="#top">{escape(name)}</a><div class="site-nav-links"><a href="#story">魅力</a><a href="#menu">料理</a><a href="#visit">来店前</a><a class="nav-action" href="#visit">確認する</a></div></nav>
+  <main id="top">
+    <section class="hero-section" data-parallax>
+      <div class="page-wrap hero-grid">
+        <div class="hero-copy reveal"><p class="eyebrow">{escape(industry)} / {escape(region)}</p><h1>食べに行く理由が、ひと目で伝わる。</h1><p class="lead-text">{escape(name)}の魅力を、料理写真・空間・来店前の確認まで一つの流れに。初めての方にも迷わず伝わる構成です。</p><div class="button-row"><a class="button button-primary" href="#visit">来店前の確認へ</a><a class="button button-secondary" href="#menu">料理を見る</a></div></div>
+        <div class="photo-stack reveal">{photo_cards}</div>
+      </div>
+    </section>
+    <section class="content-section" id="story"><div class="page-wrap section-heading reveal"><p class="section-kicker">STORY</p><h2>一皿の魅力を、余白と言葉で支える。</h2><p>料理、空間、来店前の安心をひとつの流れに整え、初めての方にもお店の魅力がすっと伝わる構成です。</p></div><div class="page-wrap feature-grid"><article class="feature-card feature-wide reveal"><h3>看板の一皿を、最初に。</h3><p>看板料理、外観、店内の雰囲気が大きく伝わる余白を用意。写真が入るほど、来店前の期待が高まります。</p></article><article class="feature-card reveal"><h3>スマホで迷わない</h3><p>営業確認、アクセス、予約/問い合わせ導線を近くに置きます。</p></article><article class="feature-card reveal"><h3>季節の楽しみ</h3><p>限定や旬のお知らせも、来店前に自然に見つけられる構成です。</p></article></div></section>
+    <section class="content-section menu-section" id="menu"><div class="page-wrap menu-layout"><div class="section-heading reveal"><p class="section-kicker">MENU</p><h2>名物、限定、来店前情報を一画面で。</h2><p>名物、季節、来店前の確認を短く整理します。</p></div><div class="menu-list reveal"><div><strong>名物</strong><span>最初に食べてほしい一皿を大きく。</span></div><div><strong>季節</strong><span>旬・限定・仕入れの変化を短く。</span></div><div><strong>来店前</strong><span>営業状況、支払い、アクセスの不安を先回り。</span></div></div></div></section>
+    <section class="visit-section" id="visit"><div class="page-wrap visit-grid"><div class="visit-panel reveal"><p class="section-kicker">VISIT GUIDE</p><h2>行く前に必要なことを、短く。</h2><p>営業時間・住所・SNS・問い合わせなど、来店前に見たい情報をまとめるためのセクションです。</p><div class="button-row"><a class="button button-primary" href="#top">上へ戻る</a></div></div><div class="info-list reveal"><div><strong>エリア</strong><span>{escape(region)}</span></div><div><strong>来店前</strong><span>営業状況・アクセス・最新情報をまとめて確認</span></div><div><strong>写真</strong><span>料理・外観・店内をわかりやすく掲載</span></div></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="page-wrap"><span>© {escape(name)}</span><span>最新情報は店舗告知をご確認ください。</span></div></footer>
+  <script>{motion_js()}</script>
+</body>
+</html>
+"""
+
+
+def render_photo_cards(asset_manifest: dict[str, Any], name: str) -> str:
+    selected = asset_manifest.get("selected_photos") or []
+    if selected:
+        return "\n".join(
+            f'<figure class="photo-card photo-card-{index}"><img src="{escape_attr(item["url"])}" alt="{escape_attr(item.get("alt") or name + "の店舗写真")}" loading="{"eager" if index == 1 else "lazy"}"><figcaption>{escape(item.get("alt") or "店舗写真")}</figcaption></figure>'
+            for index, item in enumerate(selected[:3], start=1)
+        )
+    return """
+        <div class="photo-card photo-card-empty photo-card-1" role="img" aria-label="料理写真の配置枠"><span>MAIN DISH</span><strong>料理写真</strong><em>香りまで伝わる看板の一皿</em></div>
+        <div class="photo-card photo-card-empty photo-card-2" role="img" aria-label="外観または店内写真の配置枠"><span>SPACE</span><strong>外観 / 店内</strong><em>入口と空間の雰囲気</em></div>
+        <div class="photo-card photo-card-empty photo-card-3" role="img" aria-label="メニューまたはアクセス写真の配置枠"><span>DETAIL</span><strong>メニュー / 導線</strong><em>注文前に見たい案内</em></div>
+    """
+
+
+def template_css() -> str:
+    return """
+:root{--ink:#16110d;--muted:#6d625a;--paper:#fffaf2;--cream:#f5ecdf;--deep:#17100b;--accent:#b85b32;--gold:#d5a65b;--line:rgba(57,35,21,.16);--shadow:0 24px 70px rgba(35,22,12,.14);--radius-lg:30px;--radius-md:18px;--ease:cubic-bezier(.16,1,.3,1);--sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",system-ui,sans-serif;--serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP",serif}.palette-miso{--accent:#a64d26;--gold:#dc9743}.palette-warm{--accent:#9f5f3d;--gold:#d3a766}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;overflow-x:hidden;background:var(--cream);color:var(--ink);font-family:var(--serif)}a{color:inherit}.page-wrap{width:min(1160px,calc(100% - 40px));margin-inline:auto}.site-nav{position:fixed;z-index:30;top:16px;left:50%;transform:translateX(-50%);width:min(1160px,calc(100% - 32px));display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 14px 12px 18px;background:rgba(23,16,11,.92);color:white;border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 50px rgba(0,0,0,.18)}.site-brand{font:900 .95rem var(--sans);letter-spacing:.12em;text-decoration:none}.site-nav-links{display:flex;align-items:center;gap:4px}.site-nav-links a{font:800 .9rem var(--sans);text-decoration:none;padding:10px 12px;color:rgba(255,255,255,.78);border-radius:12px}.site-nav-links a:hover{background:rgba(255,255,255,.10);color:white}.site-nav-links .nav-action{background:var(--gold);color:var(--deep)}.hero-section{position:relative;min-height:100svh;display:grid;align-items:center;padding:128px 0 78px;background:linear-gradient(120deg,#1a100b,#3b2115 52%,#604025);color:white;isolation:isolate}.hero-section:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.36))}.hero-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:48px;align-items:center}.eyebrow,.section-kicker{font:900 .78rem var(--sans);letter-spacing:.18em;color:var(--gold);text-transform:uppercase}.hero-copy h1{margin:22px 0 18px;font-size:clamp(3.2rem,8.8vw,8.8rem);line-height:.92;letter-spacing:-.085em;text-wrap:balance}.lead-text{font:500 clamp(1rem,1.45vw,1.22rem)/2.05 var(--sans);color:rgba(255,255,255,.84);max-width:650px}.button-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 17px;border-radius:14px;text-decoration:none;font:900 .96rem var(--sans);border:1px solid rgba(255,255,255,.22);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}.button:hover{transform:translateY(-2px)}.button-primary{background:white;color:var(--deep);box-shadow:0 18px 40px rgba(0,0,0,.18)}.button-secondary{color:white;background:rgba(255,255,255,.08)}.photo-stack{display:grid;grid-template-columns:1fr .72fr;grid-template-rows:1fr 1fr;gap:16px;min-height:620px}.photo-card{position:relative;overflow:hidden;border-radius:var(--radius-lg);border:1px solid rgba(255,255,255,.22);box-shadow:0 30px 90px rgba(0,0,0,.24);background:#2b1a11}.photo-card-1{grid-row:1/3}.photo-card img{width:100%;height:100%;object-fit:cover;transition:transform .75s var(--ease)}.photo-card:hover img{transform:scale(1.045)}.photo-card figcaption{position:absolute;left:18px;bottom:16px;color:white;font:900 .82rem var(--sans);letter-spacing:.12em;text-shadow:0 10px 30px rgba(0,0,0,.45)}.photo-card-empty{display:flex;flex-direction:column;justify-content:flex-end;min-height:280px;padding:22px;background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),repeating-linear-gradient(135deg,rgba(255,255,255,.10) 0 1px,transparent 1px 18px),#2b1a11}.photo-card-empty:before{content:"";position:absolute;inset:16px;border:1px solid rgba(255,255,255,.18);border-radius:22px}.photo-card-empty span,.photo-card-empty em{position:relative;font:800 .74rem var(--sans);letter-spacing:.16em;color:rgba(255,255,255,.66);font-style:normal}.photo-card-empty strong{position:relative;margin:8px 0;font-size:clamp(1.8rem,3.6vw,3.8rem);line-height:.95;letter-spacing:-.07em}.content-section{padding:96px 0}.section-heading{display:grid;grid-template-columns:.74fr 1fr;gap:42px;align-items:end;margin-bottom:34px}.section-heading h2{margin:8px 0 0;font-size:clamp(2.15rem,4.8vw,5.2rem);line-height:.96;letter-spacing:-.075em;text-wrap:balance}.section-heading p{font:500 1.03rem/2 var(--sans);color:var(--muted);margin:0}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.feature-card{min-height:280px;padding:26px;border-radius:var(--radius-lg);background:var(--paper);border:1px solid var(--line);box-shadow:0 16px 45px rgba(35,22,12,.07)}.feature-wide{grid-column:span 2;background:linear-gradient(135deg,#fffaf2,#ead4b5)}.feature-card h3{margin:0 0 12px;font-size:1.48rem;letter-spacing:-.04em}.feature-card p{font:500 .98rem/1.92 var(--sans);color:var(--muted)}.menu-section{background:#fffaf2}.menu-layout{display:grid;grid-template-columns:1fr .78fr;gap:42px;align-items:start}.menu-list{border-radius:var(--radius-lg);padding:26px;background:white;border:1px solid var(--line);box-shadow:var(--shadow)}.menu-list div{display:grid;grid-template-columns:92px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-family:var(--sans)}.menu-list div:last-child{border-bottom:0}.menu-list span{color:var(--muted);line-height:1.8}.visit-section{padding:96px 0;background:var(--deep);color:white;position:relative;overflow:hidden}.visit-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px}.visit-panel,.info-list{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);border-radius:var(--radius-lg);padding:30px}.visit-panel h2{margin:8px 0 14px;font-size:clamp(2.1rem,4.5vw,4.8rem);line-height:.98;letter-spacing:-.075em}.visit-panel p{font:500 1rem/1.9 var(--sans);color:rgba(255,255,255,.76)}.info-list{display:grid;gap:0}.info-list div{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:17px 0;border-bottom:1px solid rgba(255,255,255,.12);font-family:var(--sans)}.info-list div:last-child{border-bottom:0}.info-list strong{color:var(--gold)}.info-list span{color:rgba(255,255,255,.8);line-height:1.7}.site-footer{padding:28px 0;background:#0f0a07;color:rgba(255,255,255,.66);font:500 .86rem var(--sans)}.site-footer .page-wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.reveal{opacity:1;transform:none}.js .reveal{opacity:1;transform:none;transition:transform .75s var(--ease)}.js .reveal.is-visible{opacity:1;transform:none}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.photo-card img,.js .reveal{transition:none}.js .reveal{opacity:1;transform:none}}@media(max-width:980px){.hero-grid,.section-heading,.menu-layout,.visit-grid{grid-template-columns:1fr}.photo-stack{min-height:auto}.photo-card-1{min-height:440px}.feature-grid{grid-template-columns:1fr}.feature-wide{grid-column:span 1}.site-nav-links a:not(.nav-action){display:none}}@media(max-width:640px){.page-wrap{width:min(100% - 28px,1160px)}.site-nav{top:10px;width:calc(100% - 20px);padding:10px 10px 10px 14px}.site-brand{font-size:.86rem;letter-spacing:.06em}.hero-section{padding:106px 0 58px}.hero-copy h1{font-size:clamp(2.85rem,17vw,5.2rem)}.photo-stack{grid-template-columns:1fr;gap:12px}.photo-card{min-height:280px;border-radius:24px}.photo-card-1{grid-row:auto;min-height:340px}.content-section,.visit-section{padding:72px 0}.button{width:100%}.button-row{width:100%}.section-heading h2,.visit-panel h2{font-size:2.35rem}.menu-list div,.info-list div{grid-template-columns:1fr;gap:6px}.feature-card,.visit-panel,.info-list,.menu-list{border-radius:24px;padding:22px}}
+""".strip()
+
+
+def motion_js() -> str:
+    return """
+(() => { const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; const items = document.querySelectorAll('.reveal'); if (!reduce && 'IntersectionObserver' in window) { const io = new IntersectionObserver((entries) => { for (const entry of entries) { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); } } }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }); items.forEach((item) => io.observe(item)); } else { items.forEach((item) => item.classList.add('is-visible')); } })();
+""".strip()
+
+
+def write_asset_plan(path: Path, name: str, manifest: dict[str, Any]) -> None:
+    lines = [
+        f"# {name} 写真取得・権利メモ",
+        "",
+        "- CSSの偽料理・偽ラーメンは使わない。",
+        "- 公開HTMLに入れるのは、店舗提供・自前撮影・商用ライセンス・明示許可済み素材だけ。",
+        "- 第三者媒体/SNS写真は候補URLとして記録しても無断コピーしない。",
+        "",
+        f"状態: `{manifest['status']}`",
+        "",
+        "## 使用写真",
+    ]
+    selected = manifest.get("selected_photos") or []
+    if selected:
+        lines += [f"- {item['url']} ({item['rights']})" for item in selected]
+    else:
+        lines.append("- 未設定。店舗提供写真または撮影素材が必要。")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_static_qa(code_dir: Path, manifest: dict[str, Any]) -> dict[str, Any]:
+    html_text = (code_dir / "index.html").read_text(encoding="utf-8")
+    result = {
+        "ok": True,
+        "banned_terms": [term for term in BANNED_PUBLIC_TERMS if term in html_text],
+        "photo_status": manifest["status"],
+        "selected_photo_count": len(manifest.get("selected_photos") or []),
+        "has_motion": "IntersectionObserver" in html_text and "reveal" in html_text,
+        "no_fake_food_classes": not any(token in html_text for token in ["ramen-art", "bowl-panel", "fake-ramen"]),
+    }
+    result["ok"] = not result["banned_terms"] and result["has_motion"] and result["no_fake_food_classes"]
+    qa_dir = code_dir / "qa"
+    qa_dir.mkdir(exist_ok=True)
+    (qa_dir / "static-check.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (qa_dir / "visual-review-rubric.md").write_text(
+        "# Visual QA Rubric\n\n- PC/スマホで横スクロールなし。\n- 写真が主役。未取得なら偽料理でごまかしていない。\n- 公開ページに内部営業分析語が出ていない。\n- pill/ガラス/巨大グラデだけのAI LP顔になっていない。\n",
+        encoding="utf-8",
+    )
+    return result
+
+
+def run_playwright_visual_qa(code_dir: Path) -> dict[str, Any]:
+    qa_dir = code_dir / "qa"
+    qa_dir.mkdir(exist_ok=True)
+    url = (code_dir / "index.html").resolve().as_uri()
+    screenshots: dict[str, str] = {}
+    errors: dict[str, str] = {}
+    for label, viewport in VIEWPORTS.items():
+        out = qa_dir / f"{label}.png"
+        cmd = ["playwright", "screenshot", "--full-page", "--browser", "chromium", "--viewport-size", viewport, "--wait-for-timeout", "500", url, str(out)]
+        res = subprocess.run(cmd, text=True, capture_output=True, timeout=45)
+        if res.returncode == 0 and out.exists():
+            screenshots[label] = str(out)
+        else:
+            errors[label] = res.stderr or res.stdout or f"exit={res.returncode}"
+    result = {"ok": not errors, "screenshots": screenshots, "errors": errors}
+    (qa_dir / "playwright-check.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return result

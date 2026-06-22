@@ -26,15 +26,19 @@ Japanese labels are preserved inside `lead.json` / `proposal.md`; filesystem pat
 1. Daily Hermes cron sends top 3 restaurant lead recommendations to Discord.
 2. User approves one lead with `APPROVE_LEAD #N`.
 3. Hermes runs `scripts/lead_site.py scaffold ...` to create this directory structure.
-4. Hermes verifies the generated HTML locally.
-5. Hermes commits all generated code to this repo.
-6. Hermes deploys the approved site's `code/` directory to Vercel when Vercel auth exists.
+4. Before rendering, the scaffold writes `code/assets/asset-manifest.json` and `asset-plan.md` so photos are explicit, rights-tagged inputs.
+5. The public page uses the fixed restaurant template: approved real photos when available; otherwise honest photo slots. It must not draw fake ramen/food with CSS gradients.
+6. Hermes runs static QA automatically; add `--visual-qa` or `visual-qa --screenshots` to capture Playwright desktop/mobile screenshots.
+7. Hermes commits all generated code to this repo.
+8. GitHub Pages publishes from `main`; Vercel remains optional for individual sites.
 
 ## Commands
 
 ```bash
 python3 scripts/lead_site.py check
-python3 scripts/lead_site.py scaffold --industry 飲食店 --region 東京都渋谷区 --name "Sample Bistro" --gap "予約導線が弱い" --angle "1枚LP+予約CTA" --source-url https://example.com --git-commit
+python3 scripts/lead_site.py scaffold --industry 飲食店 --region 東京都渋谷区 --name "Sample Bistro" --gap "予約導線が弱い" --angle "1枚LP+予約CTA" --source-url https://example.com
+python3 scripts/lead_site.py scaffold --industry 飲食店 --region 東京都渋谷区 --name "Photo Ready Bistro" --photo-url assets/hero.webp --photo-rights shop-approved --photo-alt "看板料理" --visual-qa
+python3 scripts/lead_site.py visual-qa restaurant/tokyo-shibuya/sample-bistro/code --screenshots
 python3 scripts/lead_site.py deploy-vercel --industry 飲食店 --region 東京都渋谷区 --slug sample-bistro
 ```
 

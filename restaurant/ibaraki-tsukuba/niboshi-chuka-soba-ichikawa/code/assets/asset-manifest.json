@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "status": "needs_shop_photos",
+  "policy": "Public previews must use shop-provided, self-shot, licensed, or explicitly approved photos. Do not copy Google Business, Tabelog, Hot Pepper, blog, Instagram, or X photos without permission.",
+  "fallback_policy": "When no approved photo exists, show photo slots; do not fake ramen/food with CSS gradients.",
+  "selected_photos": [],
+  "candidates": [],
+  "source_urls": [
+    "https://tabelog.com/ibaraki/A0802/A080201/8014295/",
+    "https://tabelog.com/ibaraki/A0802/A080201/8014295/dtlrvwlst/?type=0",
+    "https://retty.me/area/PRE08/ARE57/SUB5702/100000770120/menu/"
+  ],
+  "recommended_shots": [
+    "hero: 代表料理を大きく",
+    "gallery: 外観/入口",
+    "gallery: 店内/カウンター",
+    "support: メニュー/券売機/アクセス"
+  ]
+}
