@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "screenshots": {
+    "desktop": "restaurant/tokyo-minamisenju/maruchiba/code/qa/desktop.png",
+    "laptop": "restaurant/tokyo-minamisenju/maruchiba/code/qa/laptop.png",
+    "tablet": "restaurant/tokyo-minamisenju/maruchiba/code/qa/tablet.png",
+    "phone": "restaurant/tokyo-minamisenju/maruchiba/code/qa/phone.png",
+    "small-phone": "restaurant/tokyo-minamisenju/maruchiba/code/qa/small-phone.png"
+  },
+  "errors": {}
+}

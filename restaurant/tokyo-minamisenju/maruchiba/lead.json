@@ -1,0 +1,44 @@
+{
+  "name": "丸千葉",
+  "industry": "飲食店",
+  "region": "東京都台東区日本堤・南千住",
+  "slug": "maruchiba",
+  "created_at": "2026-06-22T08:33:49.151684+00:00",
+  "source_urls": [
+    "https://tabelog.com/tokyo/A1324/A132401/13050828/",
+    "https://hamoni.jp/shop/O6kCDmAcLHUtcNO6Ohjp",
+    "https://map.yahoo.co.jp/v3/place/Ozz3Eb4ZmaQ",
+    "https://meqqe.jp/spots/704295"
+  ],
+  "gaps": [
+    "主要検索・主要媒体上では、店舗公式サイトまたは公式予約ページを確認できませんでした",
+    "電話予約中心で来店前に知りたい情報が複数媒体に分散",
+    "第三者媒体には写真・口コミが豊富だが、店舗側が管理する案内ページは未確認"
+  ],
+  "proposal_angles": [
+    "公式1ページLP",
+    "予約前の安心導線",
+    "写真と短冊メニューの整理"
+  ],
+  "facts": {
+    "address": "東京都台東区日本堤1-1-3",
+    "phone": "03-3872-4216",
+    "hours": "14:00-21:00",
+    "closed": "水曜日",
+    "opened": "1955年",
+    "tabelog_score": "3.64",
+    "reviews": "625件",
+    "saves": "48,920人",
+    "recognition": "食べログ 居酒屋 EAST 百名店 2025 選出店",
+    "seats": "30席 カウンター18席 テーブル12席",
+    "payment_note": "カード不可・電子マネー不可・QRコード決済不可の掲載あり"
+  },
+  "asset_policy": "Public page uses no copied third-party/user-posted photos. Replace abstract/typographic layout with shop-approved photos when available.",
+  "asset_status": "needs_shop_photos",
+  "code_dir": "/Users/hiroyuki/restaurant-lead-sites/restaurant/tokyo-minamisenju/maruchiba/code",
+  "deployment": {
+    "provider": "github_pages",
+    "url": "https://hiroyuki0504.github.io/restaurant-lead-sites/restaurant/tokyo-minamisenju/maruchiba/code/index.html",
+    "source": "main:/"
+  }
+}

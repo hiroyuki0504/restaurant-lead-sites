@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "status": "needs_shop_photos",
+  "policy": "Public page uses no copied third-party/user-posted photos. Replace abstract/typographic layout with shop-approved photos when available.",
+  "fallback_policy": "No fake food visuals. Use typography, atmosphere, access, and menu rhythm until approved photos are available.",
+  "selected_photos": [],
+  "candidates": [],
+  "source_urls": [
+    "https://tabelog.com/tokyo/A1324/A132401/13050828/",
+    "https://hamoni.jp/shop/O6kCDmAcLHUtcNO6Ohjp",
+    "https://map.yahoo.co.jp/v3/place/Ozz3Eb4ZmaQ",
+    "https://meqqe.jp/spots/704295"
+  ],
+  "recommended_shots": [
+    "外観と暖簾",
+    "コの字カウンターの雰囲気",
+    "刺し盛りまたは季節の鍋",
+    "短冊メニュー",
+    "アクセス目印"
+  ]
+}
