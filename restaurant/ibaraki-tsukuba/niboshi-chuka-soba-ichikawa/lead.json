@@ -1,0 +1,45 @@
+{
+  "name": "煮干中華ソバ イチカワ",
+  "industry": "飲食店",
+  "region": "茨城県つくば市",
+  "slug": "niboshi-chuka-soba-ichikawa",
+  "created_at": "2026-06-22T00:14:17.492213+00:00",
+  "source_urls": [
+    "https://tabelog.com/ibaraki/A0802/A080201/8014295/",
+    "https://tabelog.com/ibaraki/A0802/A080201/8014295/dtlrvwlst/?type=0",
+    "https://retty.me/area/PRE08/ARE57/SUB5702/100000770120/menu/"
+  ],
+  "facts": {
+    "address": "茨城県つくば市天久保2-9-2 A101",
+    "hours": "11:30～材料切れ次第終了",
+    "closed_days": "日曜日、祝日、不定休あり",
+    "reservation_status": "予約不可",
+    "seats": "9席（カウンターのみ）",
+    "official_social": "https://x.com/ikou246",
+    "tabelog_score": "3.87",
+    "review_count": "954人",
+    "save_count": "34,726人",
+    "awards": [
+      "The Tabelog Award 2017 Bronze",
+      "食べログ ラーメン EAST 百名店 2017〜2025"
+    ]
+  },
+  "official_presence": "official_social_only",
+  "gaps": [
+    "主要検索・主要媒体上では、店舗公式サイトまたは公式予約ページを確認できませんでした。",
+    "営業日・不定休・材料切れ終了の確認が公式X中心",
+    "人気・行列・駐車場・現金前提など来店前確認事項が多い"
+  ],
+  "proposal_angles": [
+    "予約前安心導線",
+    "公式1ページLP",
+    "営業情報整理ハブ"
+  ],
+  "code_dir": "/Users/hiroyuki/restaurant-lead-sites/restaurant/ibaraki-tsukuba/niboshi-chuka-soba-ichikawa/code",
+  "deployment": {
+    "provider": "github_pages",
+    "url": "https://hiroyuki0504.github.io/restaurant-lead-sites/restaurant/ibaraki-tsukuba/niboshi-chuka-soba-ichikawa/code/index.html",
+    "source": "main:/"
+  },
+  "asset_policy": "Public preview uses CSS-only original atmosphere artwork; no third-party restaurant/user photos copied. Replace with shop-approved photos before real operation."
+}
