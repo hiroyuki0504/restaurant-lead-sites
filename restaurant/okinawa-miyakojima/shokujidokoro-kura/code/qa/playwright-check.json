@@ -5,7 +5,8 @@
     "laptop": "restaurant/okinawa-miyakojima/shokujidokoro-kura/code/qa/laptop.png",
     "tablet": "restaurant/okinawa-miyakojima/shokujidokoro-kura/code/qa/tablet.png",
     "phone": "restaurant/okinawa-miyakojima/shokujidokoro-kura/code/qa/phone.png",
-    "small-phone": "restaurant/okinawa-miyakojima/shokujidokoro-kura/code/qa/small-phone.png"
+    "small-phone": "restaurant/okinawa-miyakojima/shokujidokoro-kura/code/qa/small-phone.png",
+    "desktop-full": "restaurant/okinawa-miyakojima/shokujidokoro-kura/code/qa/desktop-full.png"
   },
   "errors": {}
 }

@@ -3,7 +3,7 @@
   "industry": "飲食店",
   "region": "沖縄県宮古島市平良字久貝",
   "slug": "shokujidokoro-kura",
-  "updated_at": "2026-06-22T12:32:11.885727+00:00",
+  "updated_at": "2026-06-23T06:40:46.098686+00:00",
   "source_urls": [
     "https://oki-raku.net/blog/inaka-restaurant-kura/",
     "https://tabelog.com/okinawa/A4705/A470503/47029175/",
@@ -37,5 +37,6 @@
     "provider": "github_pages",
     "url": "https://hiroyuki0504.github.io/restaurant-lead-sites/restaurant/okinawa-miyakojima/shokujidokoro-kura/code/index.html",
     "source": "main:restaurant/okinawa-miyakojima/shokujidokoro-kura/code/index.html"
-  }
+  },
+  "design_version": "overwhelming_reference_inspired_v3"
 }

@@ -1,34 +1,45 @@
 {
-  "version": 2,
-  "status": "ready_with_generated_atmosphere_assets",
-  "policy": "Public page uses no copied third-party or user-posted restaurant photos. Visuals are AI-generated abstract atmosphere/texture assets, not depictions of the shop dishes or interior.",
+  "version": 3,
+  "status": "overwhelming_reference_inspired_generated_assets",
+  "policy": "Public page uses AI-generated concept/atmosphere visuals only. They are not presented as actual shop, dish, or staff photos. No third-party listing/SNS/blog photos are copied.",
+  "reference_sites_checked": [
+    "https://sankoudesign.com/",
+    "https://choooodoii.com/",
+    "http://blackrainbow.la/hope/",
+    "https://partners.cpeople.ru/en/",
+    "https://www.potel.jp/kyoto/cityguide/",
+    "https://sanstete.com/",
+    "https://www.lemonade.com/pet",
+    "https://safaririot.com/",
+    "https://www.almond.studio/"
+  ],
   "selected_assets": [
     {
-      "path": "code/assets/kura-hero-atmosphere.jpg",
-      "type": "ai-generated atmosphere",
-      "source": "https://v3b.fal.media/files/b/0a9f5101/3vGnxgXYy7slTb59o8IIh_2rZWd2yE.png",
+      "path": "code/assets/kura-night-hero.jpg",
+      "type": "AI-generated concept hero",
+      "source": "https://v3b.fal.media/files/b/0a9f6a72/0Q3NPm5NOuAvaiDtzmbc__XKOHXmpq.png",
       "public_use": "yes",
-      "note": "abstract mood image; no food/people/text/logo"
+      "note": "cinematic atmosphere; no text/logo/identifiable people"
     },
     {
-      "path": "code/assets/kura-washi-texture.jpg",
-      "type": "ai-generated texture",
-      "source": "https://v3b.fal.media/files/b/0a9f510a/CiHy1UlKr79-YIH0iLbaf_Y2kzGXjw.png",
+      "path": "code/assets/kura-craft-mood.jpg",
+      "type": "AI-generated ingredient/craft mood",
+      "source": "https://v3b.fal.media/files/b/0a9f6a7b/TwX5bgWqmancf9uP4TuCc_gjExwRZx.png",
       "public_use": "yes",
-      "note": "abstract textile/paper texture"
+      "note": "conceptual material image, not actual dish photo"
+    },
+    {
+      "path": "code/assets/kura-ink-texture.jpg",
+      "type": "AI-generated texture",
+      "source": "https://v3b.fal.media/files/b/0a9f6a7c/r8xZyjZyppkobwBjp6ZQs_UIXKaZ44.png",
+      "public_use": "yes",
+      "note": "abstract ink/washi texture"
     }
   ],
-  "source_urls": [
-    "https://oki-raku.net/blog/inaka-restaurant-kura/",
-    "https://tabelog.com/okinawa/A4705/A470503/47029175/",
-    "https://myakuzumi.com/21718/",
-    "https://map.yahoo.co.jp/v3/place/GI3yqaKU5sA",
-    "https://www.tripadvisor.jp/Restaurant_Review-g680765-d7433498-Reviews-Kura-Miyakojima_Okinawa_Prefecture_Kyushu.html"
-  ],
   "replacement_plan": [
-    "店舗提供の外観写真",
-    "女将のおまかせ料理の正式写真",
-    "店内の木目空間",
-    "予約時に案内したい地図/駐車場写真"
+    "official exterior photo",
+    "official food course photos",
+    "interior/night ambience",
+    "parking/access photo"
   ]
 }
