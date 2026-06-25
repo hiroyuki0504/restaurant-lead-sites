@@ -1,6 +1,6 @@
 {
-  "version": 3,
-  "status": "overwhelming_reference_inspired_generated_assets",
+  "version": 4,
+  "status": "polished_immersive_reservation_ready_public_preview",
   "policy": "Public page uses AI-generated concept/atmosphere visuals only. They are not presented as actual shop, dish, or staff photos. No third-party listing/SNS/blog photos are copied.",
   "reference_sites_checked": [
     "https://sankoudesign.com/",
@@ -41,5 +41,10 @@
     "official food course photos",
     "interior/night ambience",
     "parking/access photo"
+  ],
+  "public_page_notes": [
+    "v4 removes design/process-facing copy from the public page",
+    "adds visit/access and reservation-note sections",
+    "keeps AI-generated visuals as abstract atmosphere only"
   ]
 }
