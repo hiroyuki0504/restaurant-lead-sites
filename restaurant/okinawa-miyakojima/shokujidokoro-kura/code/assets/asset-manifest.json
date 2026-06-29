@@ -1,6 +1,6 @@
 {
-  "version": 4,
-  "status": "polished_immersive_reservation_ready_public_preview",
+  "version": 5,
+  "status": "v5_editorial_threshold_and_reservation_polish",
   "policy": "Public page uses AI-generated concept/atmosphere visuals only. They are not presented as actual shop, dish, or staff photos. No third-party listing/SNS/blog photos are copied.",
   "reference_sites_checked": [
     "https://sankoudesign.com/",
@@ -45,6 +45,9 @@
   "public_page_notes": [
     "v4 removes design/process-facing copy from the public page",
     "adds visit/access and reservation-note sections",
-    "keeps AI-generated visuals as abstract atmosphere only"
+    "keeps AI-generated visuals as abstract atmosphere only",
+    "v5 adds an editorial threshold interlude using existing safe abstract assets",
+    "v5 adds hero fact bar, reservation call chips, skip link, focus states, and selection styling",
+    "image generation attempted for an additional threshold asset but unavailable; no unlicensed assets added"
   ]
 }
